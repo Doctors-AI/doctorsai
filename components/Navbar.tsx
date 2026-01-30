@@ -10,6 +10,7 @@ const navItems = [
   { label: 'About', href: '#about' },
   { label: 'Features', href: '#features' },
   { label: 'Ambassador', href: '#ambassador' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 export default function Navbar() {
@@ -23,6 +24,11 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Simplified handler - mostly just for closing the menu
+  const handleMobileNavClick = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <motion.nav
@@ -47,7 +53,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3 group">
+          <a 
+            href="#home" 
+            className="flex items-center gap-3 group"
+          >
             <div className={`relative rounded-xl overflow-hidden transition-all duration-300 ${
               isScrolled ? 'w-10 h-10 p-1.5' : 'w-12 h-12 glass p-2'
             }`}>
@@ -127,7 +136,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto', backdropFilter: "blur(20px)" }}
             exit={{ opacity: 0, height: 0, backdropFilter: "blur(0px)" }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden overflow-hidden border-b border-white/5 bg-slate-900/80"
+            className="md:hidden overflow-hidden border-b border-white/5 bg-slate-900/95 shadow-2xl relative z-40"
           >
             <div className="px-6 py-8 space-y-2">
               {navItems.map((item, index) => (
@@ -137,8 +146,8 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium"
+                  onClick={handleMobileNavClick}
+                  className="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
                     {item.label}

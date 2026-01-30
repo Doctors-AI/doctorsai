@@ -74,6 +74,7 @@ body {
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
 }
 
 /* Custom scrollbar */

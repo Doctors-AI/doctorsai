@@ -54,7 +54,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="relative pt-32 pb-12 overflow-hidden bg-slate-950" itemScope itemType="https://schema.org/WPFooter">
+      <footer id="contact" className="relative pt-32 pb-12 overflow-hidden bg-slate-950" itemScope itemType="https://schema.org/WPFooter">
         {/* Dynamic Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-teal-500/5 rounded-full blur-[120px] translate-y-1/2" />
