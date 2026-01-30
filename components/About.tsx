@@ -48,7 +48,7 @@ export default function About() {
             </h2>
             
             <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-              Doctors AI is not just another medical app—it's a comprehensive AI-powered platform 
+              Doctors AI is not just another medical app - it's a comprehensive AI-powered platform 
               meticulously designed for healthcare professionals who demand precision, speed, and 
               evidence-based insights.
             </p>
@@ -121,7 +121,7 @@ export default function About() {
             <p className="text-lg text-gray-300 leading-relaxed">
               To empower every healthcare professional with AI technology that enhances clinical 
               decision-making, streamlines documentation, and ultimately improves patient care. 
-              We're building the future of medicine—one intelligent feature at a time.
+              We're building the future of medicine-one intelligent feature at a time.
             </p>
           </div>
         </motion.div>

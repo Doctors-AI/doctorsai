@@ -1,155 +1,262 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import { Smartphone, Download, ArrowRight } from 'lucide-react'
-import Image from 'next/image'
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles, Download, Heart, Zap, Shield, Star } from 'lucide-react';
 
-export default function Hero() {
+const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 animated-gradient opacity-30"></div>
-      
-      {/* Floating orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-surgical-teal rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
-      <div className="absolute top-40 right-20 w-96 h-96 bg-surgical-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute -bottom-8 left-1/2 w-80 h-80 bg-surgical-mint rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '4s' }}></div>
-
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
+    <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
-          {/* Logo */}
-          <motion.div 
-            className="mb-8 flex justify-center"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2, type: 'spring', stiffness: 200 }}
-          >
-            <div className="glass-strong rounded-3xl p-6 glow-surgical">
-              <Image
-                src="https://github.com/RittikSoni/assets/blob/main/doctorsai/app_logo-doctors_ai.png?raw=true"
-                alt="Doctors AI Logo"
-                width={120}
-                height={120}
-                className="w-24 h-24 md:w-32 md:h-32"
-              />
-            </div>
-          </motion.div>
-
-          {/* Title */}
-          <motion.h1 
-            className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 leading-tight"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <span className="surgical-gradient-text">Doctors AI</span>
-          </motion.h1>
-
-          <motion.p 
-            className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-4 font-light"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Advanced AI Medical Assistant
-          </motion.p>
-
-          <motion.p 
-            className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            Precision-engineered for healthcare professionals. Transform your practice with 
-            AI-powered diagnostics, clinical documentation, and evidence-based medical intelligence.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            <a
-              href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative px-10 py-5 rounded-2xl font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105"
-            >
-              <div className="absolute inset-0 bg-surgical-gradient"></div>
-              <div className="absolute inset-0 bg-surgical-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-              <span className="relative flex items-center gap-3 text-white">
-                <Download className="w-6 h-6" />
-                Download on Google Play
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </a>
-
-            <button className="group glass px-10 py-5 rounded-2xl font-semibold text-lg border border-surgical-teal/50 hover:border-surgical-teal transition-all duration-300 hover:scale-105 hover:glow-surgical">
-              <span className="flex items-center gap-3 text-white">
-                <Smartphone className="w-6 h-6" />
-                iOS Coming Soon
-              </span>
-            </button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div 
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-          >
-            {[
-              { value: '50K+', label: 'Healthcare Professionals' },
-              { value: '4.5', label: 'App Store Rating' },
-              { value: '100K+', label: 'AI Assessments' },
-              { value: '24/7', label: 'AI Support' },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                className="glass-strong rounded-2xl p-6 hover:scale-105 transition-transform duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.4 + index * 0.1 }}
-              >
-                <div className="text-3xl md:text-4xl font-bold surgical-gradient-text mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
+          className="absolute top-20 left-10 w-64 h-64 bg-teal-400/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div 
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
-      >
+      <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+        {/* Left content */}
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-6 h-10 border-2 border-surgical-teal/50 rounded-full flex justify-center"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center lg:text-left"
         >
+          {/* Badge */}
+<motion.div
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.2 }}
+  className="inline-flex items-center gap-2 px-5 py-2.5 mt-10 rounded-full backdrop-blur-xl border border-teal-400/30 bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-teal-500/10 mb-6 md:mb-8"
+  style={{
+    boxShadow: '0 0 30px rgba(45,212,191,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+  }}
+>
+  <motion.div
+    animate={{ rotate: 360 }}
+    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+  >
+    <Sparkles className="w-4 h-4 text-teal-400" />
+  </motion.div>
+
+  <span className="text-sm font-semibold bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+    AI-Powered Healthcare
+  </span>
+
+  <div className="flex gap-0.5">
+    {[...Array(5)].map((_, i) => (
+      <Star key={i} className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+    ))}
+  </div>
+</motion.div>
+
+
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+          >
+            Doctors AI: Your Health,
+            <span className="block bg-gradient-to-r from-teal-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              Intelligently Managed
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed"
+          >
+            Experience the future of healthcare with <strong>Doctors AI</strong>. Get instant health insights, professional symptom analysis, and expert medical recommendations powered by advanced artificial intelligence.
+          </motion.p>
+
+          {/* CTA Button */}
           <motion.div
-            animate={{ y: [0, 16, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-1 h-3 bg-surgical-teal rounded-full mt-2"
-          />
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="flex flex-col gap-4 items-center lg:items-start"
+          >
+            <motion.a
+              href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors&pcampaignid=web_share"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg text-white overflow-hidden transition-all duration-300"
+              style={{
+                background: 'linear-gradient(135deg, rgba(45,212,191,1) 0%, rgba(59,130,246,1) 100%)',
+                boxShadow: '0 20px 60px rgba(45,212,191,0.4), 0 0 0 1px rgba(255,255,255,0.1)',
+              }}
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              />
+              <Download className="w-6 h-6 relative z-10" />
+              <span className="relative z-10">Download Now</span>
+              <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100"
+                animate={{
+                  background: [
+                    'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 50%, rgba(255,255,255,0.2) 0%, transparent 50%)',
+                    'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 50%)',
+                  ],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                }}
+              />
+            </motion.a>
+
+               <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="flex flex-col items-center lg:items-start gap-2"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-3">
+                  <img
+                    src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&h=150&fit=crop&crop=faces"
+                    alt="Doctor"
+                    className="w-10 h-10 rounded-full border-2 border-slate-900 object-cover"
+                    loading="lazy"
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=150&h=150&fit=crop&crop=faces"
+                    alt="Surgeon"
+                    className="w-10 h-10 rounded-full border-2 border-slate-900 object-cover"
+                    loading="lazy"
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&h=150&fit=crop&crop=faces"
+                    alt="Medical professional"
+                    className="w-10 h-10 rounded-full border-2 border-slate-900 object-cover"
+                    loading="lazy"
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&h=150&fit=crop&crop=faces"
+                    alt="Medical student"
+                    className="w-10 h-10 rounded-full border-2 border-slate-900 object-cover"
+                    loading="lazy"
+                  />
+                  <img
+                    src="https://github.com/RittikSoni/assets/blob/main/doctorsai/the-doctor-pradyuman.png?raw=true"
+                    alt="Healthcare professional"
+                    className="w-10 h-10 rounded-full border-2 border-slate-900 object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-sm text-slate-400">
+               {/* Option 1 — simple & global */}
+Trusted and recommended by <span className="font-semibold text-slate-300">healthcare professionals and medical students worldwide</span>
+
+              </p>
+            </motion.div>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            className="mt-4 text-sm text-slate-400"
+          >
+            Available now for Android devices
+          </motion.p>
         </motion.div>
-      </motion.div>
+
+        {/* Right content - App mockup */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative"
+        >
+          <div className="relative">
+            {/* Glassmorphism card container */}
+            <motion.div
+              animate={{
+                y: [0, -20, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="relative rounded-3xl overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)'
+              }}
+            >
+              <img 
+                src="https://horizons-cdn.hostinger.com/8c814c1a-b8e5-4271-9ab6-7355081d60fe/6d9edfec93710fd2bc3ba92cc218efa0.jpg" 
+                alt="Doctors AI mobile application interface displaying AI symptom checker and health reports on a smartphone"
+                className="w-full h-auto rounded-3xl"
+              />
+              
+              {/* Decorative glow effects */}
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-teal-400/20 rounded-full blur-3xl" />
+              <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl" />
+            </motion.div>
+
+            {/* Floating accent elements */}
+            <motion.div
+              animate={{
+                y: [0, -15, 0],
+                rotate: [0, 5, 0]
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="absolute -top-8 -right-8 w-24 h-24 rounded-2xl"
+              style={{
+                background: 'linear-gradient(135deg, rgba(45,212,191,0.2) 0%, rgba(59,130,246,0.2) 100%)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.15)',
+              }}
+            />
+          </div>
+        </motion.div>
+      </div>
     </section>
-  )
-}
+  );
+};
+
+export default Hero;
