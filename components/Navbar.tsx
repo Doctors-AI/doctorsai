@@ -18,7 +18,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 20)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -29,43 +29,66 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass-strong py-4' : 'py-6'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+        isScrolled 
+          ? 'py-3' 
+          : 'py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6">
+      {/* Liquid Glass Background Container - Dynamic width on scroll */}
+      <div 
+        className={`absolute inset-0 transition-all duration-500 ease-in-out -z-10 ${
+          isScrolled 
+            ? 'bg-slate-900/70 backdrop-blur-2xl border-b border-white/5 shadow-lg shadow-teal-900/10' 
+            : 'bg-transparent'
+        }`}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 relative">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-xl glass p-2 group-hover:scale-110 transition-transform duration-300">
+            <div className={`relative rounded-xl overflow-hidden transition-all duration-300 ${
+              isScrolled ? 'w-10 h-10 p-1.5' : 'w-12 h-12 glass p-2'
+            }`}>
+              <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <Image
                 src="https://github.com/RittikSoni/assets/blob/main/doctorsai/app_logo-doctors_ai.png?raw=true"
                 alt="Doctors AI"
-                width={40}
-                height={40}
-                className="w-full h-full"
+                width={48}
+                height={48}
+                className="w-full h-full object-contain relative z-10"
               />
             </div>
-            <span className="text-xl font-display font-bold surgical-gradient-text hidden sm:block">
+            <span className={`font-display font-bold surgical-gradient-text hidden sm:block transition-all duration-300 ${
+              isScrolled ? 'text-lg' : 'text-xl'
+            }`}>
               Doctors AI
             </span>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item, index) => (
-              <motion.a
-                key={item.label}
-                href={item.href}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-gray-300 hover:text-surgical-mint transition-colors duration-300 font-medium relative group"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-surgical-gradient group-hover:w-full transition-all duration-300"></span>
-              </motion.a>
-            ))}
+          <div className="hidden md:flex items-center gap-1">
+            <div className={`flex items-center gap-1 p-1.5 rounded-full transition-all duration-500 ${
+              isScrolled ? 'bg-white/5 border border-white/5 backdrop-blur-md' : ''
+            }`}>
+              {navItems.map((item, index) => (
+                <motion.a
+                  key={item.label}
+                  href={item.href}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="px-5 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white relative group transition-colors duration-300"
+                >
+                  <span className="relative z-10">{item.label}</span>
+                  <motion.span 
+                    className="absolute inset-0 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    layoutId="navbar-hover"
+                  />
+                </motion.a>
+              ))}
+            </div>
             
             <motion.a
               href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
@@ -74,33 +97,39 @@ export default function Navbar() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="px-6 py-2.5 rounded-xl bg-surgical-gradient font-semibold hover:scale-105 transition-transform duration-300 hover:shadow-lg hover:shadow-surgical-teal/50"
+              className={`ml-4 px-6 py-2.5 rounded-full font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.3)] ${
+                isScrolled 
+                  ? 'bg-gradient-to-r from-teal-500 to-blue-600 text-sm' 
+                  : 'bg-surgical-gradient'
+              }`}
             >
               Get Started
             </motion.a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Enhanced Glass */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden glass p-3 rounded-xl hover:bg-white/10 transition-colors"
+            className={`md:hidden p-2.5 rounded-xl transition-all duration-300 ${
+              isMobileMenuOpen ? 'bg-white/10 text-white' : 'glass text-gray-300 hover:text-white'
+            }`}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Enhanced Liquid Effect */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden overflow-hidden"
+            initial={{ opacity: 0, height: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, height: 'auto', backdropFilter: "blur(20px)" }}
+            exit={{ opacity: 0, height: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="md:hidden overflow-hidden border-b border-white/5 bg-slate-900/80"
           >
-            <div className="glass-strong mt-4 mx-6 rounded-2xl p-6 space-y-4">
+            <div className="px-6 py-8 space-y-2">
               {navItems.map((item, index) => (
                 <motion.a
                   key={item.label}
@@ -109,19 +138,22 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-gray-300 hover:text-surgical-mint transition-colors duration-300 font-medium py-2"
+                  className="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium"
                 >
-                  {item.label}
+                  <div className="flex items-center justify-between">
+                    {item.label}
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-400 opacity-0 group-hover:opacity-100" />
+                  </div>
                 </motion.a>
               ))}
               <motion.a
                 href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
-                className="block w-full px-6 py-3 rounded-xl bg-surgical-gradient font-semibold text-center mt-4"
+                className="block w-full mt-6 px-6 py-4 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 font-semibold text-center text-white shadow-lg shadow-teal-500/20"
               >
                 Get Started
               </motion.a>

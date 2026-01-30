@@ -1,8 +1,7 @@
-
 "use client"
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, FileText, Globe, FileEdit, Podcast, BookOpen, Sparkles, MessageSquare, X, Maximize2, GraduationCap } from 'lucide-react';
+import React, { useState, useRef, MouseEvent } from 'react';
+import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { Brain, FileText, Globe, FileEdit, Podcast, BookOpen, Sparkles, MessageSquare, X, Maximize2, GraduationCap, Play } from 'lucide-react';
 
 const features = [
   {
@@ -49,8 +48,8 @@ const features = [
   },
    {
     icon: GraduationCap,
-    title: "AI-Powered Anki-Style Flashcards",
-    description: "Auto-generate high-quality Q/A, MCQ, true/false, basic and cloze cards from AI, articles, notes, or cases. Supports text, audio, image & video flashcards, with spaced-repetition scheduling, customizable decks & templates, progress analytics, offline study, and easy sharing with friends.",
+    title: "AI-Powered Flashcards",
+    description: "Auto-generate high-quality Q/A, MCQ, and cloze cards from AI or notes. Supports spaced-repetition scheduling and offline study.",
     image: "https://raw.githubusercontent.com/RittikSoni/assets/refs/heads/main/doctorsai/ai-powered-anki-style-flashcards.png"
   },
   {
@@ -60,6 +59,77 @@ const features = [
     image: null
   }
 ];
+
+function FeatureCard({ feature, index, openLightbox }: { feature: any, index: number, openLightbox: (img: string, title: string) => void }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      onMouseMove={handleMouseMove}
+      className="group relative rounded-3xl border border-white/10 bg-slate-900/50 overflow-hidden"
+    >
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              rgba(45, 212, 191, 0.15),
+              transparent 80%
+            )
+          `,
+        }}
+      />
+      
+      <div className="relative h-full flex flex-col">
+          {feature.image && (
+            <div className="relative h-48 overflow-hidden cursor-pointer" onClick={() => openLightbox(feature.image, feature.title)}>
+              <img 
+                src={feature.image} 
+                alt={feature.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent" />
+              <div className="absolute top-4 right-4 p-2 rounded-full bg-black/50 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">
+                <Maximize2 className="w-4 h-4 text-white" />
+              </div>
+            </div>
+          )}
+
+          <div className="p-8 flex-1 flex flex-col relative z-20">
+             {!feature.image && (
+                <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-6 border border-teal-500/20 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-6 h-6 text-teal-400" />
+                </div>
+             )}
+             {feature.image && (
+                 <div className="absolute -top-6 left-6 w-12 h-12 rounded-xl bg-slate-900 border border-teal-500/20 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
+                    <feature.icon className="w-6 h-6 text-teal-400" />
+                 </div>
+             )}
+
+             <h3 className={`text-xl font-bold text-white mb-3 ${feature.image ? 'mt-4' : ''} group-hover:text-teal-400 transition-colors`}>
+               {feature.title}
+             </h3>
+             <p className="text-slate-400 text-sm leading-relaxed">
+               {feature.description}
+             </p>
+          </div>
+      </div>
+    </motion.div>
+  );
+}
 
 const Features = () => {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
@@ -81,242 +151,111 @@ const Features = () => {
 
   return (
     <>
-      {/* Cinematic Video Section */}
-    <section className="relative py-20 px-4 overflow-hidden" id="features">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative py-24 px-4 overflow-hidden bg-slate-950" id="features">
+         {/* Background Mesh */}
+         <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-teal-500/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+         </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          
+          {/* Section Header */}
+          <div className="text-center mb-20">
+             <motion.div
+               initial={{ opacity: 0, scale: 0.9 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true }}
+               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-teal-500/30 bg-teal-500/10 backdrop-blur-md mb-6"
+             >
+                <Sparkles className="w-4 h-4 text-teal-400" />
+                <span className="text-sm font-semibold text-teal-300">Features</span>
+             </motion.div>
+             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+               Everything you need for <br/>
+               <span className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
+                 Better Healthcare
+               </span>
+             </h2>
+             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+               Discover the powerful capabilities of Doctors AI, designed to revolutionize how you manage your health diagnosis, records, and consultations.
+             </p>
+          </div>
+
+          {/* Video Section with 3D Float */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            className="relative mb-32 group"
           >
-            <motion.span 
-              initial={{ scale: 0.9, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="inline-block px-4 py-2 rounded-full bg-teal-500/10 backdrop-blur-sm border border-teal-500/20 text-teal-300 text-sm font-medium mb-4"
-            >
-              ✨ See Doctors AI in Action
-            </motion.span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-              Trusted by Doctors, Medical Professionals
-              <span className="block bg-gradient-to-r from-teal-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                & Medical Students Worldwide
-              </span>
-            </h2>
+             <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+             <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-slate-900">
+                <div className="aspect-video relative">
+                    <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src="https://www.youtube.com/embed/UQQgPLd2NMg?autoplay=1&mute=1&loop=1&playlist=UQQgPLd2NMg&controls=1&modestbranding=1&rel=0&showinfo=0"
+                        title="Doctors AI Demo"
+                        allowFullScreen
+                        loading="lazy"
+                    />
+                    {/* Overlay for inactive state if needed, simplified here */}
+                </div>
+                
+                {/* Glass Bar at Bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none" />
+             </div>
           </motion.div>
 
-          {/* Theatre Video Container */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative group"
-          >
-            {/* Ambient Glow Effects */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-teal-500/20 via-blue-500/20 to-purple-500/20 rounded-3xl blur-3xl opacity-30 group-hover:opacity-50 transition-opacity duration-700" />
-            <div className="absolute -inset-2 bg-gradient-to-br from-teal-400/10 to-blue-500/10 rounded-2xl blur-2xl animate-pulse" />
-            
-            {/* Glass Container */}
-            <div className="relative rounded-2xl overflow-hidden" style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-              backdropFilter: 'blur(30px)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
-            }}>
-              {/* Theatre Black Bars - Top */}
-              <div className="absolute top-0 left-0 right-0 h-8 md:h-12 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none" />
-              
-              {/* Theatre Black Bars - Bottom */}
-              <div className="absolute bottom-0 left-0 right-0 h-8 md:h-12 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none" />
-              
-              {/* Video Wrapper */}
-              <div className="relative aspect-video bg-black/50">
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src="https://www.youtube.com/embed/UQQgPLd2NMg?autoplay=1&mute=1&loop=1&playlist=UQQgPLd2NMg&controls=1&modestbranding=1&rel=0&showinfo=0"
-                  title="Doctors AI - Healthcare Technology Demo"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Bottom Gradient Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none" />
-            </div>
-
-            {/* Floating Particles Effect */}
-            <div className="absolute top-1/4 left-10 w-2 h-2 bg-teal-400/40 rounded-full animate-pulse" style={{ animationDelay: '0s', animationDuration: '3s' }} />
-            <div className="absolute top-1/3 right-20 w-1.5 h-1.5 bg-blue-400/40 rounded-full animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }} />
-            <div className="absolute bottom-1/4 left-1/4 w-1 h-1 bg-purple-400/40 rounded-full animate-pulse" style={{ animationDelay: '2s', animationDuration: '3.5s' }} />
-            <div className="absolute top-1/2 right-1/3 w-2 h-2 bg-teal-300/30 rounded-full animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '4.5s' }} />
-          </motion.div>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-center text-slate-400 mt-8 max-w-2xl mx-auto"
-          >
-            Watch how Doctors AI empowers healthcare professionals and medical students with intelligent automation, 
-            evidence-based clinical insights, and seamless collaboration tools for superior patient care.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="relative py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <span className="inline-block px-4 py-2 rounded-full bg-teal-500/10 backdrop-blur-sm border border-teal-500/20 text-teal-300 text-sm font-medium mb-4">
-              Doctors AI Features
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Doctors AI Features:
-              <span className="block bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
-                Everything for Better Healthcare
-              </span>
-            </h2>
-            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-              Discover the powerful capabilities of Doctors AI, designed to revolutionize how you manage your health diagnosis, records, and consultations.
-            </p>
-          </motion.div>
-
+          {/* Features Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <motion.article
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-                className="group relative rounded-2xl overflow-hidden transition-all duration-300"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                }}
-                itemScope
-                itemType="https://schema.org/SoftwareFeature"
-              >
-                {/* Image Section */}
-                {feature.image && (
-                  <button
-                    onClick={() => openLightbox(feature.image, feature.title)}
-                    className="relative h-48 overflow-hidden bg-slate-900/50 w-full block cursor-pointer group/image"
-                    aria-label={`View ${feature.title} screenshot`}
-                  >
-                    <img 
-                      src={feature.image} 
-                      alt={`${feature.title} - Doctors AI feature screenshot`}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="lazy"
-                      decoding="async"
-                      itemProp="image"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent" />
-                    
-                    {/* Expand icon on hover */}
-                    <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-slate-900/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover/image:opacity-100 transition-opacity duration-300">
-                      <Maximize2 className="w-4 h-4 text-teal-400" />
-                    </div>
-                    
-                    {/* Icon overlay on image */}
-                    <motion.div
-                      whileHover={{ rotate: 360, scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                      className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500/80 to-blue-500/80 backdrop-blur-sm flex items-center justify-center border border-teal-400/30"
-                    >
-                      <feature.icon className="w-6 h-6 text-white" />
-                    </motion.div>
-                  </button>
-                )}
-
-                {/* Content Section */}
-                <div className="relative p-6">
-                  <div className="absolute inset-0 bg-gradient-to-br from-teal-500/0 to-blue-500/0 group-hover:from-teal-500/10 group-hover:to-blue-500/10 transition-all duration-300" />
-                  
-                  {!feature.image && (
-                    <motion.div
-                      whileHover={{ rotate: 360, scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                      className="w-14 h-14 rounded-xl bg-gradient-to-br from-teal-500/20 to-blue-500/20 flex items-center justify-center mb-6 border border-teal-400/20"
-                    >
-                      <feature.icon className="w-7 h-7 text-teal-400" />
-                    </motion.div>
-                  )}
-
-                  <div className="relative">
-                    <h3 className="text-xl font-semibold text-white mb-3" itemProp="name">
-                      {feature.title}
-                    </h3>
-                    <p className="text-slate-400 leading-relaxed text-sm" itemProp="description">
-                      {feature.description}
-                    </p>
-                  </div>
-
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-teal-500/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-              </motion.article>
+              <FeatureCard 
+                key={index} 
+                feature={feature} 
+                index={index} 
+                openLightbox={openLightbox} 
+              />
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox */}
       <AnimatePresence>
         {lightboxImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl"
             onClick={closeLightbox}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="relative max-w-5xl w-full max-h-[90vh]"
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="relative max-w-6xl w-full max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close button */}
               <button
                 onClick={closeLightbox}
-                className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-slate-800/80 backdrop-blur-sm flex items-center justify-center hover:bg-slate-700/80 transition-colors"
-                aria-label="Close image viewer"
+                className="absolute -top-14 right-0 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
               >
-                <X className="w-5 h-5 text-white" />
+                <X className="w-6 h-6" />
               </button>
-
-              {/* Title */}
-              <div className="absolute -top-12 left-0 text-white font-semibold text-lg">
-                {lightboxTitle}
-              </div>
-
-              {/* Image */}
+              
               <img
                 src={lightboxImage}
-                alt={`${lightboxTitle} - Full size view`}
-                className="w-full h-full object-contain rounded-lg"
-                loading="eager"
+                alt={lightboxTitle}
+                className="w-full h-full object-contain rounded-lg shadow-2xl"
               />
+              
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                  <h3 className="text-white text-xl font-bold">{lightboxTitle}</h3>
+              </div>
             </motion.div>
           </motion.div>
         )}

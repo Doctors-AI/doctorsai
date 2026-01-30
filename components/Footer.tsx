@@ -3,266 +3,260 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Heart, Twitter, Instagram, Youtube, Linkedin, MessageCircle, 
-  Mail, MapPin, X, Sparkles, Smartphone 
+  Mail, MapPin, X, Sparkles, Smartphone, ArrowUp 
 } from 'lucide-react';
 
 const Footer = () => {
   const [showIOSModal, setShowIOSModal] = useState(false);
-  
-  // Get current year dynamically
   const currentYear = new Date().getFullYear();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const socialLinks = [
     { 
       icon: Twitter, 
       url: 'https://x.com/Doctors__AI', 
       label: 'X (Twitter)',
-      color: 'hover:text-slate-200'
+      color: 'hover:text-sky-400',
+      bg: 'hover:bg-sky-400/10 hover:border-sky-400/20'
     },
     { 
       icon: Instagram, 
       url: 'https://www.instagram.com/doctorsaiofficial/', 
       label: 'Instagram',
-      color: 'hover:text-pink-400'
+      color: 'hover:text-pink-500',
+      bg: 'hover:bg-pink-500/10 hover:border-pink-500/20'
     },
     { 
       icon: Youtube, 
       url: 'https://www.youtube.com/@DoctorsAIofficial', 
       label: 'YouTube',
-      color: 'hover:text-red-400'
+      color: 'hover:text-red-500',
+      bg: 'hover:bg-red-500/10 hover:border-red-500/20'
     },
     { 
       icon: Linkedin, 
       url: 'https://www.linkedin.com/company/doctors-ai/', 
       label: 'LinkedIn',
-      color: 'hover:text-blue-400'
+      color: 'hover:text-blue-500',
+      bg: 'hover:bg-blue-500/10 hover:border-blue-500/20'
     },
     { 
       icon: MessageCircle, 
       url: 'https://discord.gg/BRv9ZfjaD2', 
       label: 'Discord',
-      color: 'hover:text-indigo-400'
+      color: 'hover:text-indigo-400',
+      bg: 'hover:bg-indigo-400/10 hover:border-indigo-400/20'
     }
   ];
 
   return (
     <>
-      <footer className="relative py-16 px-4 mt-20" itemScope itemType="https://schema.org/WPFooter">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-2xl p-8 md:p-12"
-            style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-            }}
-          >
-            {/* Main Footer Content */}
-            <div className="grid md:grid-cols-3 gap-8 mb-8">
-              {/* Brand Section */}
-              <div className="text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
-                  <Heart className="w-6 h-6 text-teal-400 fill-teal-400" />
-                  <span className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
-                    Doctors AI
-                  </span>
-                </div>
-                <p className="text-slate-400 mb-6 max-w-xs mx-auto md:mx-0">
-                  Your intelligent healthcare companion. Empowering medical professionals with AI-driven insights.
-                </p>
-                
-                {/* App Badges Container */}
-                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
-                  
-                  {/* Google Play Badge */}
-                  <a
-                    href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors&pcampaignid=web_share"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block transition-transform duration-300 hover:scale-105 focus:opacity-80"
-                    aria-label="Get Doctors AI on Google Play"
-                  >
-                    <img
-                      src="https://raw.githubusercontent.com/RittikSoni/assets/429e892a2c4d2fc5f8ecd91faaf008e95226cfdf/GetItOnGooglePlay_Badge_Web_color_English.svg"
-                      alt="Get it on Google Play"
-                      // Using fixed pixel height to ensure exact visual match with App Store badge
-                      className="h-[42px] w-auto object-contain"
-                      loading="lazy"
-                    />
-                  </a>
-
-                  {/* App Store Badge (Trigger Modal) */}
-                  <button
-                    onClick={() => setShowIOSModal(true)}
-                    className="inline-block transition-transform duration-300 hover:scale-105 focus:outline-none"
-                    aria-label="Download on the App Store (Coming Soon)"
-                  >
-                    <img
-                      src="https://raw.githubusercontent.com/RittikSoni/assets/85ff5ccfae16150071a00584a4dcfccb4715bd9e/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-                      alt="Download on the App Store"
-                      // Using fixed pixel height to ensure exact visual match with Google Play badge
-                      className="h-[42px] w-auto object-contain"
-                      loading="lazy"
-                    />
-                  </button>
-                </div>
-              </div>
-
-              {/* Center Tagline */}
-               <motion.div
-                className="flex items-center justify-center"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-               >
-                  <h3 className="text-2xl md:text-4xl font-extrabold text-center leading-tight tracking-tight drop-shadow-lg">
-                    <span className="block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      Live Well
-                    </span>
-                    <span className="block bg-gradient-to-r from-teal-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
-                      Live Long
-                    </span>
-                  </h3>
-              </motion.div>
-
-              {/* Connect Section */}
-              <div className="text-center md:text-left">
-                <h3 className="text-white font-semibold mb-4 text-lg">Connect With Us</h3>
-                <div className="flex items-center justify-center md:justify-start gap-3 mb-4 flex-wrap">
-                  {socialLinks.map((social, index) => {
-                    const Icon = social.icon;
-                    return (
-                      <motion.a
-                        key={index}
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={social.label}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                        whileHover={{ scale: 1.15, rotate: 5 }}
-                        className={`w-10 h-10 rounded-lg bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 flex items-center justify-center text-slate-400 ${social.color} transition-all duration-300`}
-                      >
-                        <Icon className="w-5 h-5" />
-                      </motion.a>
-                    );
-                  })}
-                </div>
-                <div className="space-y-2 text-sm text-slate-400">
-                  <p className="flex items-center justify-center md:justify-start gap-2">
-                    <Mail className="w-4 h-4 text-teal-400" />
-                    <a href="mailto:contact.doctorsai@elpisverse.com" className="hover:text-teal-400 transition-colors">
-                      contact.doctorsai@elpisverse.com
-                    </a>
-                  </p>
-                  <p className="flex items-center justify-center md:justify-start gap-2">
-                    <MapPin className="w-4 h-4 text-teal-400" />
-                    <span>Worldwide</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className="border-t border-white/10 my-8"></div>
-
-            {/* Bottom Section */}
-            <div className="text-center space-y-4">
-              <p className="text-sm text-slate-500">
-                {/* Dynamic year implemented here */}
-                © {currentYear} Doctors AI. All rights reserved. Empowering healthier lives through technology.
-              </p>
-
-              <div className="max-w-3xl mx-auto">
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  <strong className="text-slate-400">Medical Disclaimer:</strong> Doctors AI is designed to provide health information and support medical professionals. 
-                  It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider 
-                  with any questions you may have regarding a medical condition.
-                </p>
-              </div>
-
-              {/* Made with love */}
-              <p className="text-xs text-slate-600 flex items-center justify-center gap-1">
-                Made with <Heart className="w-3 h-3 text-red-400 fill-red-400 animate-pulse" /> for healthcare professionals worldwide
-              </p>
-            </div>
-          </motion.div>
+      <footer className="relative pt-32 pb-12 overflow-hidden bg-slate-950" itemScope itemType="https://schema.org/WPFooter">
+        {/* Dynamic Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-teal-500/5 rounded-full blur-[120px] translate-y-1/2" />
+            <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[120px] translate-y-1/2" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_top,transparent_20%,black)]" />
         </div>
 
-        {/* Bottom gradient effect */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          
+          <div className="grid lg:grid-cols-12 gap-12 mb-20">
+             {/* Brand Column (4 cols) */}
+             <div className="lg:col-span-4 space-y-8">
+                 <motion.div 
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   className="flex items-center gap-2"
+                 >
+                   <div className="p-2 resize-none rounded-xl bg-gradient-to-br from-teal-500/20 to-blue-500/20 border border-teal-500/20">
+                     <Heart className="w-6 h-6 text-teal-400 fill-teal-400/50" />
+                   </div>
+                   <span className="text-2xl font-bold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                     Doctors AI
+                   </span>
+                 </motion.div>
+                 
+                 <p className="text-slate-400 leading-relaxed font-light">
+                   Your intelligent healthcare companion. Empowering medical professionals with AI-driven insights, real-time analysis, and global collaboration.
+                 </p>
+
+                 <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                   {/* Play Store */}
+                   <motion.a
+                     href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     whileHover={{ scale: 1.05 }}
+                     whileTap={{ scale: 0.95 }}
+                     className="block opacity-90 hover:opacity-100 transition-opacity"
+                   >
+                     <img
+                       src="https://raw.githubusercontent.com/RittikSoni/assets/429e892a2c4d2fc5f8ecd91faaf008e95226cfdf/GetItOnGooglePlay_Badge_Web_color_English.svg"
+                       alt="Get it on Google Play"
+                       className="h-[46px] w-auto"
+                     />
+                   </motion.a>
+
+                   {/* App Store */}
+                   <motion.button
+                     onClick={() => setShowIOSModal(true)}
+                     whileHover={{ scale: 1.05 }}
+                     whileTap={{ scale: 0.95 }}
+                     className="block opacity-90 hover:opacity-100 transition-opacity"
+                   >
+                     <img
+                       src="https://raw.githubusercontent.com/RittikSoni/assets/85ff5ccfae16150071a00584a4dcfccb4715bd9e/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+                       alt="Download on the App Store"
+                       className="h-[46px] w-auto"
+                     />
+                   </motion.button>
+                 </div>
+             </div>
+
+             {/* Links Column (Mainly Socials & Contact) (4 cols) */}
+             <div className="lg:col-span-4 lg:col-start-6 space-y-8">
+                <h4 className="text-white font-semibold text-lg">Connect With Us</h4>
+                
+                <div className="flex flex-wrap gap-3">
+                   {socialLinks.map((social, idx) => (
+                     <motion.a
+                       key={idx}
+                       href={social.url}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       initial={{ opacity: 0, scale: 0.8 }}
+                       whileInView={{ opacity: 1, scale: 1 }}
+                       transition={{ delay: idx * 0.1 }}
+                       whileHover={{ y: -4 }}
+                       className={`w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 transition-all duration-300 ${social.color} ${social.bg}`}
+                       aria-label={social.label}
+                     >
+                       <social.icon className="w-5 h-5" />
+                     </motion.a>
+                   ))}
+                </div>
+
+                <div className="space-y-4 pt-4">
+                  <a href="mailto:contact.doctorsai@elpisverse.com" className="flex items-center gap-3 text-slate-400 hover:text-teal-400 transition-colors group">
+                    <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center group-hover:border-teal-500/30 transition-colors">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <span>contact.doctorsai@elpisverse.com</span>
+                  </a>
+                  
+                  <div className="flex items-center gap-3 text-slate-400">
+                    <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center">
+                      <MapPin className="w-4 h-4" />
+                    </div>
+                    <span>Global Headquarters</span>
+                  </div>
+                </div>
+             </div>
+
+             {/* Tagline Column (4 cols) */}
+             <div className="lg:col-span-3 lg:col-start-10 flex flex-col justify-center items-center lg:items-end text-center lg:text-right">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="text-3xl md:text-4xl font-bold leading-tight mb-2">
+                    <span className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">Live Well</span>
+                  </h3>
+                  <h3 className="text-3xl md:text-4xl font-bold leading-tight">
+                    <span className="bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">Live Long</span>
+                  </h3>
+                </motion.div>
+             </div>
+          </div>
+
+          <div className="border-t border-slate-800 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+             <div className="text-slate-500 text-sm text-center md:text-left">
+               <p>© {currentYear} Doctors AI. All rights reserved.</p>
+               <p className="mt-2 text-xs text-slate-600 max-w-xl">
+                 Medical Disclaimer: Doctors AI is an assisting tool for healthcare professionals. 
+                 It is not a substitute for professional medical judgment.
+               </p>
+             </div>
+
+             <motion.button
+               onClick={scrollToTop}
+               whileHover={{ y: -4 }}
+               className="p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-teal-500/30 text-slate-400 hover:text-teal-400 transition-colors"
+               aria-label="Scroll to top"
+             >
+               <ArrowUp className="w-5 h-5" />
+             </motion.button>
+          </div>
+          
+           <div className="mt-8 text-center">
+             <p className="text-xs text-slate-600 flex items-center justify-center gap-1.5">
+               Made with <Heart className="w-3 h-3 text-red-500 fill-red-500/20 animate-pulse" /> for the future of healthcare
+             </p>
+           </div>
+        </div>
       </footer>
 
-      {/* iOS Coming Soon Modal */}
+      {/* iOS Modal */}
       <AnimatePresence>
         {showIOSModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
-            onClick={() => setShowIOSModal(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-md p-8 rounded-2xl border border-slate-700 shadow-2xl overflow-hidden"
-              style={{
-                background: 'linear-gradient(145deg, #0f172a 0%, #1e293b 100%)',
-              }}
-            >
-              {/* Background Glow */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-              {/* Close Button */}
-              <button
-                onClick={() => setShowIOSModal(false)}
-                className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white transition-colors rounded-full hover:bg-white/10"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Content */}
-              <div className="text-center relative z-10">
-                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center border border-slate-700 shadow-inner group">
-                  <Smartphone className="w-8 h-8 text-slate-300 group-hover:text-teal-400 transition-colors duration-500" />
-                  <Sparkles className="absolute -top-2 -right-2 w-5 h-5 text-yellow-400 animate-pulse" />
-                </div>
-
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  Coming to iOS Soon
-                </h3>
-                
-                <p className="text-slate-400 mb-6 leading-relaxed">
-                  We are crafting the perfect experience for Apple devices. 
-                  The Doctors AI iOS app is currently in the final stages of development.
-                </p>
-
-                <div className="p-4 rounded-lg bg-slate-900/50 border border-slate-800 mb-6">
-                  <p className="text-sm text-teal-300 font-medium">
-                    🚀 Launching Soon!
-                  </p>
-                </div>
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+             <motion.div
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+               onClick={() => setShowIOSModal(false)}
+             />
+             
+             <motion.div
+               initial={{ scale: 0.9, opacity: 0, y: 20 }}
+               animate={{ scale: 1, opacity: 1, y: 0 }}
+               exit={{ scale: 0.9, opacity: 0, y: 10 }}
+               className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl p-8 overflow-hidden shadow-2xl"
+             >
+                {/* Modal Glows */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
                 <button
                   onClick={() => setShowIOSModal(false)}
-                  className="w-full py-3 px-4 bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-400 hover:to-blue-400 text-white font-semibold rounded-xl shadow-lg shadow-teal-500/20 transition-all duration-300 transform hover:-translate-y-0.5"
+                  className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white transition-colors"
                 >
-                  Notify me when it's ready
+                  <X className="w-5 h-5" />
                 </button>
-              </div>
-            </motion.div>
-          </motion.div>
+
+                <div className="text-center relative z-10">
+                   <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center border border-white/5 shadow-inner">
+                      <Smartphone className="w-8 h-8 text-slate-300" />
+                      <div className="absolute top-[-4px] right-[-4px]">
+                        <span className="relative flex h-3 w-3">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+                        </span>
+                      </div>
+                   </div>
+
+                   <h3 className="text-2xl font-bold text-white mb-2">Coming to iOS</h3>
+                   <p className="text-slate-400 mb-8">
+                     We're adding the final surgical touches. <br/> 
+                     Get notified when we launch on the App Store.
+                   </p>
+
+                   <button
+                     onClick={() => setShowIOSModal(false)}
+                     className="w-full py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 font-semibold text-white shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 transition-shadow"
+                   >
+                     Notify me on Launch
+                   </button>
+                </div>
+             </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </>
