@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 const navItems = [
   { label: 'Home', href: '#home' },
@@ -16,6 +17,8 @@ const navItems = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +31,11 @@ export default function Navbar() {
   // Simplified handler - mostly just for closing the menu
   const handleMobileNavClick = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const getHref = (href: string) => {
+    if (isHomePage) return href;
+    return `/${href}`;
   };
 
   return (
@@ -54,7 +62,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a 
-            href="#home" 
+            href={isHomePage ? "#home" : "/"}
             className="flex items-center gap-3 group"
           >
             <div className={`relative rounded-xl overflow-hidden transition-all duration-300 ${
@@ -84,7 +92,7 @@ export default function Navbar() {
               {navItems.map((item, index) => (
                 <motion.a
                   key={item.label}
-                  href={item.href}
+                  href={getHref(item.href)}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -142,7 +150,7 @@ export default function Navbar() {
               {navItems.map((item, index) => (
                 <motion.a
                   key={item.label}
-                  href={item.href}
+                  href={getHref(item.href)}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}

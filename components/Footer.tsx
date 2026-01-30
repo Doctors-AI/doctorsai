@@ -178,6 +178,10 @@ const Footer = () => {
           <div className="border-t border-slate-800 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
              <div className="text-slate-500 text-sm text-center md:text-left">
                <p>© {currentYear} Doctors AI. All rights reserved.</p>
+               <div className="flex justify-center md:justify-start gap-4 mt-2">
+                 <a href="/privacy-policy" className="text-xs text-slate-500 hover:text-teal-400 transition-colors">Privacy Policy</a>
+                 <a href="/terms-of-service" className="text-xs text-slate-500 hover:text-teal-400 transition-colors">Terms of Service</a>
+               </div>
                <p className="mt-2 text-xs text-slate-600 max-w-xl">
                  Medical Disclaimer: Doctors AI is an assisting tool for healthcare professionals. 
                  It is not a substitute for professional medical judgment.
