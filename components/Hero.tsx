@@ -19,14 +19,16 @@ const Hero = () => {
       {/* Dynamic Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Mesh Gradients */}
+        {/* Mesh Gradients - Optimized */}
         <motion.div 
           animate={{ 
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3], 
             rotate: [0, 45, 0]
           }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br from-teal-500/20 via-blue-500/10 to-purple-500/20 blur-[100px]"
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          style={{ willChange: "transform" }}
+          className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br from-teal-500/20 via-blue-500/10 to-purple-500/20 blur-[80px]"
         />
         <motion.div 
           animate={{ 
@@ -34,8 +36,9 @@ const Hero = () => {
             opacity: [0.2, 0.4, 0.2],
             rotate: [0, -45, 0]
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-[20%] -right-[10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl from-blue-600/20 via-cyan-400/10 to-teal-400/20 blur-[100px]"
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          style={{ willChange: "transform" }}
+          className="absolute -bottom-[20%] -right-[10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tl from-blue-600/20 via-cyan-400/10 to-teal-400/20 blur-[80px]"
         />
         
         {/* Grid Pattern Overlay */}

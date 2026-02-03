@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 
 const navItems = [
   { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
+  // { label: 'About', href: '#about' },
   { label: 'Features', href: '#features' },
   { label: 'Ambassador', href: '#ambassador' },
   { label: 'Contact', href: '#contact' },
@@ -28,9 +28,33 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Simplified handler - mostly just for closing the menu
-  const handleMobileNavClick = () => {
+  // Handle mobile navigation clicks
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault(); // Always prevent default to handle control manually
     setIsMobileMenuOpen(false);
+
+    // If we are on the home page and it's a hash link, scroll manually
+    if (isHomePage && href.startsWith('#')) {
+      const targetId = href.replace('#', '');
+      const element = document.getElementById(targetId);
+      
+      if (element) {
+        // Add a small delay to allow the menu to close and state to settle
+        setTimeout(() => {
+            const headerOffset = 80; // Approximate header height
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+    
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            });
+        }, 100);
+      }
+    } else if (!isHomePage && href.startsWith('#')) {
+       // If not on home page, navigate to home with hash
+       window.location.href = `/${href}`;
+    }
   };
 
   const getHref = (href: string) => {
@@ -154,7 +178,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  onClick={handleMobileNavClick}
+                  onClick={(e) => handleLinkClick(e, item.href)}
                   className="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
