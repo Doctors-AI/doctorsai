@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import About from '@/components/About'
+// import About from '@/components/About'
 import Features from '@/components/Features'
 import Ambassador from '@/components/Ambassador'
 import Footer from '@/components/Footer'
@@ -12,7 +12,7 @@ export default function Home() {
       <div id="home">
         <Hero />
       </div>
-      <About />
+      {/* <About /> */}
       <Features />
       <Ambassador />
       <Footer />

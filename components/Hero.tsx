@@ -160,7 +160,7 @@ const Hero = () => {
                 ))}
               </div>
               <p className="text-sm text-slate-400">
-                Trusted by <span className="text-white font-medium">10,000+</span> medical professionals
+                Trusted and recommended by <span className="text-white font-medium">healthcare professionals and medical students worldwide</span>
               </p>
             </div>
           </motion.div>
@@ -183,7 +183,7 @@ const Hero = () => {
               {/* Screen Content */}
               <div className="relative  bg-slate-800 rounded-[2.5rem] overflow-hidden">
                 <img 
-                    src="https://horizons-cdn.hostinger.com/8c814c1a-b8e5-4271-9ab6-7355081d60fe/6d9edfec93710fd2bc3ba92cc218efa0.jpg" 
+                    src="https://raw.githubusercontent.com/Doctors-AI/assets/refs/heads/main/logo/doctors-ai-logo.png" 
                     alt="Doctors AI App Interface" 
                     className="w-full h-full object-cover"
                 />

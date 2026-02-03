@@ -48,7 +48,7 @@ const features = [
   },
    {
     icon: GraduationCap,
-    title: "AI-Powered Flashcards",
+    title: "AI-Powered Anki-style Flashcards",
     description: "Auto-generate high-quality Q/A, MCQ, and cloze cards from AI or notes. Supports spaced-repetition scheduling and offline study.",
     image: "https://raw.githubusercontent.com/RittikSoni/assets/refs/heads/main/doctorsai/ai-powered-anki-style-flashcards.png"
   },
