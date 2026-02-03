@@ -4,7 +4,7 @@ A stunning, modern landing page for Doctors AI built with Next.js 15, featuring 
 
 ## ✨ Features
 
-- 🎨 **Liquid Glass Morphism Design** - Modern glassmorphic UI with backdrop blur effects
+- 🎨 **Liquid Glass Morphism Design** - Modern glassmorphic UI with backdrop blur effects.
 - 🎭 **Surgical Theme** - Professional medical color palette with teal, blue, and mint gradients
 - ⚡ **Framer Motion Animations** - Smooth, professional animations throughout
 - 📱 **Fully Responsive** - Beautiful on all devices from mobile to desktop
