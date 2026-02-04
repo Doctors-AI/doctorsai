@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kingrittik.doctors",
+      "sha256_cert_fingerprints": [
+        "FE:B6:09:29:D9:C8:FC:A7:90:69:B3:97:37:B9:B4:17:23:0B:7C:31:E9:C0:17:68:4A:01:FA:4E:74:2A:A2:9B"
+      ]
+    }
+  }
+]
