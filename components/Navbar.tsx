@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -19,6 +19,12 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const isHomePage = pathname === '/'
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  })
 
   useEffect(() => {
     const handleScroll = () => {
@@ -202,6 +208,10 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-blue-600 origin-left"
+        style={{ scaleX }}
+      />
     </motion.nav>
   )
 }
