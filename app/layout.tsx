@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Analytics } from "@vercel/analytics/next"
+import ClarityComponent from "@/components/Clarity"
 
 
 
@@ -9,6 +10,9 @@ export const metadata: Metadata = {
   title: 'Doctors AI - Advanced AI Medical Assistant for Healthcare Professionals',
   description: 'The ultimate AI-powered medical platform for doctors, medical professionals, and students. Features AI diagnosis, SOAP notes, radiology analysis, evidence-based journals, medical podcasts, and a global healthcare community.',
   keywords: [
+    'Best Medical AI',
+    'AI Doctor',
+    'Medical Assistant App',
     'AI medical assistant',
     'medical AI',
     'AI diagnosis tool',
@@ -43,7 +47,7 @@ export const metadata: Metadata = {
     description: 'Transform your medical practice with AI-powered diagnosis, clinical documentation, radiology analysis, and evidence-based research. Join thousands of healthcare professionals worldwide.',
     images: [
       {
-        url: 'https://github.com/RittikSoni/assets/blob/main/doctorsai/doctors_ai.png?raw=true',
+        url: 'https://raw.githubusercontent.com/Doctors-AI/assets/refs/heads/main/images/doctors_ai.png',
         width: 1200,
         height: 630,
         alt: 'Doctors AI Platform'
@@ -58,14 +62,14 @@ export const metadata: Metadata = {
     creator: '@Doctors__AI',
     title: 'Doctors AI - Advanced AI Medical Assistant for Healthcare Professionals',
     description: 'Transform your medical practice with AI-powered diagnosis, clinical documentation, radiology analysis, and evidence-based research. Join thousands of healthcare professionals worldwide.',
-    images: ['https://github.com/RittikSoni/assets/blob/main/doctorsai/doctors_ai.png?raw=true'],
+    images: ['https://raw.githubusercontent.com/Doctors-AI/assets/refs/heads/main/images/doctors_ai.png'],
   },
   icons: {
     icon: 'https://github.com/RittikSoni/assets/blob/main/doctorsai/app_logo-doctors_ai.png?raw=true',
     apple: 'https://github.com/RittikSoni/assets/blob/main/doctorsai/app_logo-doctors_ai.png?raw=true',
   },
   alternates: {
-    canonical: 'https://play.google.com/store/apps/details?id=com.kingrittik.doctors',
+    canonical: 'https://doctorsai.elpisverse.com',
   },
   other: {
     'mobile-web-app-capable': 'yes',
@@ -74,6 +78,7 @@ export const metadata: Metadata = {
     'theme-color': '#0A4D8C',
   }
 }
+
 
 
 export default function RootLayout({
@@ -134,22 +139,11 @@ export default function RootLayout({
             })
           }}
         />
-        <script
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-              })(window, document, "clarity", "script", "uzss6sz0nd");
-            `
-          }}
-        />
       </head>
       <body className="antialiased">
         {children}
         <Analytics />
+        <ClarityComponent />
       </body>
     </html>
   )
