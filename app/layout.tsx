@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Analytics } from "@vercel/analytics/next"
+
+
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://doctorsai.elpisverse.com'),
@@ -12,6 +15,7 @@ export const metadata: Metadata = {
     'SOAP notes generator',
     'ai medical scribe',
     'Doctor AI Report Expert',
+    'Doctorsai',
     'AI radiology',
     'medical journals AI',
     'healthcare AI',
@@ -20,10 +24,15 @@ export const metadata: Metadata = {
     'clinical notes AI',
     'medical podcasts',
     'evidence based medicine',
+    'anki',
+    'anki flashcards',
+    'AI anki medical flashcards',
     'AI symptom checker',
     'discharge summary generator',
     'medical students AI',
+    'medical students app',
     'healthcare professionals app'
+    
   ],
   authors: [{ name: 'Doctors AI' }],
   robots: 'index, follow',
@@ -65,6 +74,7 @@ export const metadata: Metadata = {
     'theme-color': '#0A4D8C',
   }
 }
+
 
 export default function RootLayout({
   children,
@@ -139,6 +149,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         {children}
+        <Analytics />
       </body>
     </html>
   )
