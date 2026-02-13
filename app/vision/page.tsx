@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, useSpring, useTransform, useInView } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -622,7 +623,15 @@ function Onboarding({ onSelect }: { onSelect: (t: VisitorType) => void }) {
       <div className="relative z-10 w-full max-w-xl mx-auto px-5">
         {step === 0 ? (
           <div className="text-center" style={{ animation:"fadeUp .55s ease both" }}>
-            <div className="mx-auto mb-8 w-16 h-16 rounded-2xl flex items-center justify-center text-3xl" style={{ background:"linear-gradient(135deg,rgba(34,211,238,.14),rgba(34,211,238,.04))", border:"1px solid rgba(34,211,238,.18)" }}>⚕️</div>
+            <div className="mx-auto mb-8 w-20 h-20 relative">
+              <Image 
+                src="https://github.com/RittikSoni/assets/blob/main/doctorsai/app_logo-doctors_ai.png?raw=true" 
+                alt="Doctors AI" 
+                fill 
+                className="object-contain drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+                priority
+              />
+            </div>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-7" style={{ background:"rgba(34,211,238,.07)", border:"1px solid rgba(34,211,238,.18)" }}>
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="text-cyan-400 font-mono text-[11px] tracking-widest uppercase">Exhibition 2026</span>
