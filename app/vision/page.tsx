@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useSpring, useTransform, useInView } from "framer-motion";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // ─────────────────────────────────────────────────────────────────
 // TYPES
@@ -40,20 +43,16 @@ const VCFG: Record<VisitorType, { label: string; emoji: string; accent: string; 
 // MICRO COMPONENTS
 // ─────────────────────────────────────────────────────────────────
 function Counter({ target, suffix = "", decimals = 0 }: { target: number; suffix?: string; decimals?: number }) {
-  const [v, setV] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const done = useRef(false);
+  const inView = useInView(ref, { once: true, margin: "-20%" });
+  const spring = useSpring(0, { stiffness: 50, damping: 15, mass: 1 });
+  const value = useTransform(spring, (current) => current.toFixed(decimals));
+
   useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting || done.current) return;
-      done.current = true;
-      let cur = 0; const steps = 70; const inc = target / steps;
-      const t = setInterval(() => { cur += inc; if (cur >= target) { cur = target; clearInterval(t); } setV(parseFloat(cur.toFixed(decimals))); }, 1600 / steps);
-    }, { threshold: 0.4 });
-    io.observe(el); return () => io.disconnect();
-  }, [target, decimals]);
-  return <span ref={ref}>{v.toFixed(decimals)}{suffix}</span>;
+    if (inView) spring.set(target);
+  }, [inView, spring, target]);
+
+  return <span><motion.span ref={ref}>{value}</motion.span>{suffix}</span>;
 }
 
 function Tag({ c, children }: { c: string; children: React.ReactNode }) {
@@ -63,8 +62,8 @@ function Tag({ c, children }: { c: string; children: React.ReactNode }) {
 function H2({ children, sub }: { children: React.ReactNode; sub?: string }) {
   return (
     <div className="mb-10">
-      <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(34px,4.5vw,60px)", fontWeight: 800, lineHeight: 1.0, letterSpacing: "-.04em", color: "#fff" }}>{children}</h2>
-      {sub && <p className="mt-4 text-zinc-500 text-base font-light max-w-lg leading-relaxed" style={{ fontFamily: "'DM Sans',sans-serif" }}>{sub}</p>}
+      <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px,5vw,60px)", fontWeight: 800, lineHeight: 1.0, letterSpacing: "-.04em", color: "#fff" }}>{children}</h2>
+      {sub && <p className="mt-4 text-zinc-500 text-base font-light max-w-lg leading-relaxed">{sub}</p>}
     </div>
   );
 }
@@ -114,7 +113,7 @@ function BarRow({ yr, pct, label, color, delay }: { yr: string; pct: number; lab
       <div className="w-12 text-right font-mono text-xs flex-shrink-0" style={{ color: "rgba(255,255,255,.25)" }}>{yr}</div>
       <div className="flex-1 h-9 rounded-lg overflow-hidden" style={{ background: "rgba(255,255,255,.04)" }}>
         <div className="h-full rounded-lg flex items-center px-4 font-bold text-sm transition-all ease-out"
-             style={{ width: `${w}%`, background: `linear-gradient(90deg,${color}bb,${color}44)`, color, fontFamily: "'Syne',sans-serif", transitionDuration: "1.4s", minWidth: w > 0 ? "56px" : "0" }}>
+             style={{ width: `${w}%`, background: `linear-gradient(90deg,${color}bb,${color}44)`, color, fontFamily: "var(--font-display)", transitionDuration: "1.4s", minWidth: w > 0 ? "56px" : "0" }}>
           {w > 0 && label}
         </div>
       </div>
@@ -167,8 +166,8 @@ function BeatAI() {
           <div className="flex flex-wrap gap-2 mb-5">
             {QUIZ.map((q, i) => <span key={i} className="px-2.5 py-1 rounded-full font-mono text-[10px]" style={{ border: "1px solid rgba(255,255,255,.1)", color: dc[q.difficulty] }}>Q{i+1} · {q.tag}</span>)}
           </div>
-          <p className="text-zinc-500 text-sm leading-relaxed mb-6" style={{ fontFamily: "'DM Sans',sans-serif" }}>Cardiology · Infectious Disease · Paediatrics · Neurology · HIV/TB. Demo-safe: all pre-loaded, no API, instant responses.</p>
-          <button onClick={start} className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all hover:-translate-y-0.5" style={{ fontFamily: "'Syne',sans-serif", background: "rgba(251,113,133,.12)", border: "1px solid rgba(251,113,133,.3)" }}>Start Challenge →</button>
+          <p className="text-zinc-500 text-sm leading-relaxed mb-6">Cardiology · Infectious Disease · Paediatrics · Neurology · HIV/TB. Demo-safe: all pre-loaded, no API, instant responses.</p>
+          <button onClick={start} className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "rgba(251,113,133,.12)", border: "1px solid rgba(251,113,133,.3)" }}>Start Challenge →</button>
         </div>
       )}
 
@@ -186,7 +185,7 @@ function BeatAI() {
               <div className="font-mono text-[10px] text-zinc-700 uppercase tracking-widest mb-2">📋 Clinical Scenario</div>
               <p className="text-zinc-300 text-sm leading-relaxed font-mono">{q.scenario}</p>
             </div>
-            <p className="text-white font-bold text-lg mb-4 tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>{q.question}</p>
+            <p className="text-white font-bold text-lg mb-4 tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{q.question}</p>
             <div className="grid gap-2">
               {q.options.map((opt, i) => {
                 let bg = "rgba(255,255,255,.03)", border = "rgba(255,255,255,.08)", col = "#6b7280";
@@ -204,13 +203,13 @@ function BeatAI() {
             {gs === "revealed" && (
               <div className="mt-4 space-y-3">
                 <div className="p-4 rounded-xl" style={{ background: sel === q.correct ? "rgba(52,211,153,.05)" : "rgba(251,113,133,.05)", border: `1px solid ${sel === q.correct ? "rgba(52,211,153,.18)" : "rgba(251,113,133,.18)"}` }}>
-                  <p className="font-bold text-sm mb-1.5" style={{ fontFamily: "'Syne',sans-serif", color: sel === q.correct ? "#34d399" : "#fb7185" }}>{sel === q.correct ? "✓ Correct — you beat the AI." : "✗ The AI got this. Here's why:"}</p>
+                  <p className="font-bold text-sm mb-1.5" style={{ fontFamily: "var(--font-display)", color: sel === q.correct ? "#34d399" : "#fb7185" }}>{sel === q.correct ? "✓ Correct — you beat the AI." : "✗ The AI got this. Here's why:"}</p>
                   <p className="text-zinc-400 text-xs leading-relaxed">{q.explanation}</p>
                   <p className="mt-2 text-zinc-700 text-[10px] font-mono">⚡ AI answered in 0.02s</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-zinc-700 text-xs font-mono">Score: {score}/{qi+1}</span>
-                  <button onClick={next} className="px-5 py-2 rounded-xl text-sm font-bold text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "'Syne',sans-serif", background: "#e5e7eb" }}>{qi+1 >= QUIZ.length ? "Final Score →" : "Next →"}</button>
+                  <button onClick={next} className="px-5 py-2 rounded-xl text-sm font-bold text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "#e5e7eb" }}>{qi+1 >= QUIZ.length ? "Final Score →" : "Next →"}</button>
                 </div>
               </div>
             )}
@@ -221,15 +220,15 @@ function BeatAI() {
       {gs === "done" && (
         <div className="rounded-2xl p-8 text-center max-w-lg" style={{ border: "1px solid rgba(255,255,255,.07)", background: "rgba(10,15,25,.8)", backdropFilter: "blur(16px)" }}>
           <div className="text-5xl mb-3">{score===5?"🏆":score>=4?"⭐":score>=3?"💪":"🧠"}</div>
-          <h3 className="text-3xl font-black text-white tracking-tight mb-1" style={{ fontFamily: "'Syne',sans-serif" }}>You scored {score}/{QUIZ.length}</h3>
+          <h3 className="text-3xl font-black text-white tracking-tight mb-1" style={{ fontFamily: "var(--font-display)" }}>You scored {score}/{QUIZ.length}</h3>
           <p className="text-zinc-400 text-sm mb-1">{score===5?"Perfect. The AI scored the same — in 0.02 seconds.":score>=4?"Excellent. The AI matched you in milliseconds.":score>=3?"Solid. The AI fills these gaps instantly, 24/7.":"The AI is here to help — that's exactly the point."}</p>
           <p className="text-zinc-700 text-xs font-mono mb-6">⚡ Doctors AI: 5/5 · 0.02s · always on</p>
           <div className="p-4 rounded-xl mb-5 text-left" style={{ background: "rgba(34,211,238,.05)", border: "1px solid rgba(34,211,238,.14)" }}>
-            <p className="text-cyan-300 text-sm font-bold mb-1" style={{ fontFamily: "'Syne',sans-serif" }}>🎁 Exhibition Exclusive</p>
+            <p className="text-cyan-300 text-sm font-bold mb-1" style={{ fontFamily: "var(--font-display)" }}>🎁 Exhibition Exclusive</p>
             <p className="text-zinc-400 text-xs leading-relaxed">Download today — get <strong className="text-white">3 months Premium free</strong> + <strong className="text-white">500 AI credits</strong>. Exhibition attendees only.</p>
           </div>
           <div className="flex gap-3">
-            <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="flex-1 py-3 rounded-xl text-sm font-bold text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "'Syne',sans-serif", background: "#22d3ee", boxShadow: "0 0 24px rgba(34,211,238,.22)" }}>Download Free →</a>
+            <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="flex-1 py-3 rounded-xl text-sm font-bold text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "#22d3ee", boxShadow: "0 0 24px rgba(34,211,238,.22)" }}>Download Free →</a>
             <button onClick={() => { setGs("idle"); setScore(0); setQi(0); setSel(null); }} className="px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-white transition-all" style={{ border: "1px solid rgba(255,255,255,.08)" }}>Retry</button>
           </div>
         </div>
@@ -249,12 +248,12 @@ function Offer() {
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 font-mono text-[11px] tracking-widest uppercase" style={{ background: "rgba(34,211,238,.08)", border: "1px solid rgba(34,211,238,.22)", color: "#22d3ee" }}>
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />Exhibition Exclusive · Limited Time
         </div>
-        <h3 className="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>
+        <h3 className="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           Download Today →<br /><span style={{ color: "#22d3ee" }}>3 Months Premium Free</span> <span className="text-white">+</span> <span style={{ color: "#f59e0b" }}>500 AI Credits</span>
         </h3>
-        <p className="text-zinc-400 text-sm leading-relaxed mb-7 max-w-lg" style={{ fontFamily: "'DM Sans',sans-serif" }}>Exclusively for exhibition attendees. Claim instantly — no credit card. Offer expires at the end of the event.</p>
+        <p className="text-zinc-400 text-sm leading-relaxed mb-7 max-w-lg">Exclusively for exhibition attendees. Claim instantly — no credit card. Offer expires at the end of the event.</p>
         <div className="flex flex-wrap gap-3 items-center">
-          <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="px-8 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "'Syne',sans-serif", background: "#22d3ee", boxShadow: "0 0 28px rgba(34,211,238,.28)" }}>▶ Download on Google Play</a>
+          <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="px-8 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "#22d3ee", boxShadow: "0 0 28px rgba(34,211,238,.28)" }}>▶ Download on Google Play</a>
           <span className="text-zinc-700 text-xs font-mono">🍎 App Store — Coming Soon</span>
         </div>
       </div>
@@ -312,12 +311,12 @@ function InvestorContent() {
         <H2 sub="All figures from verified 2025–2026 institutional reports. Source cited on every data point.">
           The <span style={{ color: G }}>$613B Market</span><br />Is Forming Now.
         </H2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           {mkt.map((m, i) => (
             <div key={i} className="p-4 rounded-xl transition-all hover:-translate-y-0.5"
                  style={{ border: `1px solid rgba(245,158,11,${m.big ? ".22" : ".1"})`, background: `rgba(245,158,11,${m.big ? ".07" : ".03"})` }}>
-              <div className="font-black tracking-tighter mb-1.5 leading-none" style={{ fontFamily: "'Syne',sans-serif", color: G, fontSize: m.big ? "26px" : "22px" }}>{m.v}</div>
-              <p className="text-zinc-400 text-xs leading-relaxed mb-2" style={{ fontFamily: "'DM Sans',sans-serif" }}>{m.l}</p>
+              <div className="font-black tracking-tighter mb-1.5 leading-none" style={{ fontFamily: "var(--font-display)", color: G, fontSize: m.big ? "26px" : "22px" }}>{m.v}</div>
+              <p className="text-zinc-400 text-xs leading-relaxed mb-2">{m.l}</p>
               <div className="font-mono text-[10px] pt-2" style={{ borderTop: "1px solid rgba(245,158,11,.1)", color: "rgba(245,158,11,.38)" }}>📊 {m.s}</div>
             </div>
           ))}
@@ -327,7 +326,7 @@ function InvestorContent() {
       {/* ── MARKET CHART ── */}
       <div className="rounded-2xl p-7" style={{ border: "1px solid rgba(255,255,255,.06)", background: "rgba(255,255,255,.015)" }}>
         <div className="flex flex-wrap items-baseline gap-3 mb-7">
-          <span className="font-bold text-white text-lg tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>AI Healthcare Market Growth</span>
+          <span className="font-bold text-white text-lg tracking-tight" style={{ fontFamily: "var(--font-display)" }}>AI Healthcare Market Growth</span>
           <span className="font-mono text-xs text-zinc-600">Precedence Research · SVB · Rock Health</span>
         </div>
         {[
@@ -347,11 +346,11 @@ function InvestorContent() {
         <H2 sub="The biggest funds are writing the largest cheques in healthcare AI history — right now. Doctors AI targets the same clinical workflow problem space.">
           The Money Is<br /><span style={{ color: G }}>Already Moving.</span>
         </H2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {comparable.map((c, i) => (
             <div key={i} className="p-5 rounded-xl transition-all hover:-translate-y-0.5" style={{ border: "1px solid rgba(255,255,255,.07)", background: "rgba(255,255,255,.02)" }}>
               <div className="flex items-start justify-between mb-3">
-                <div className="font-black text-white text-sm tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>{c.co}</div>
+                <div className="font-black text-white text-sm tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{c.co}</div>
                 <div className="font-mono text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(245,158,11,.09)", border: "1px solid rgba(245,158,11,.2)", color: G }}>{c.val}</div>
               </div>
               <div className="text-zinc-500 text-xs mb-2">{c.desc}</div>
@@ -367,12 +366,12 @@ function InvestorContent() {
       <div>
         <Tag c={G}>Why Doctors AI · Why Now</Tag>
         <H2>The Thesis.<br /><span style={{ color: G }}>Six Reasons.</span></H2>
-        <div className="grid md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {why.map((w, i) => (
             <div key={i} className="flex gap-4 p-5 rounded-xl transition-all hover:-translate-y-0.5" style={{ border: "1px solid rgba(255,255,255,.07)", background: "rgba(255,255,255,.02)" }}>
               <span className="text-2xl flex-shrink-0 mt-0.5">{w.e}</span>
               <div>
-                <div className="font-bold text-white text-sm mb-1.5 tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>{w.t}</div>
+                <div className="font-bold text-white text-sm mb-1.5 tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{w.t}</div>
                 <div className="text-zinc-500 text-xs leading-relaxed">{w.d}</div>
               </div>
             </div>
@@ -382,24 +381,26 @@ function InvestorContent() {
 
       {/* ── TAILWINDS ── */}
       <div className="rounded-2xl p-7" style={{ background: "linear-gradient(135deg,rgba(245,158,11,.07),rgba(10,15,25,.9))", border: "1px solid rgba(245,158,11,.14)" }}>
-        <div className="font-bold text-white text-lg mb-5 tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>Structural Tailwinds You Can't Ignore</div>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="font-bold text-white text-lg mb-5 tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Structural Tailwinds You Can't Ignore</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {tailwinds.map((t, i) => (
             <div key={i} className="text-center p-5 rounded-xl" style={{ background: "rgba(0,0,0,.25)" }}>
-              <div className="text-3xl font-black tracking-tight mb-1.5" style={{ fontFamily: "'Syne',sans-serif", color: G }}>{t.h}</div>
+              <div className="text-3xl font-black tracking-tight mb-1.5" style={{ fontFamily: "var(--font-display)", color: G }}>{t.h}</div>
               <div className="text-zinc-300 text-xs leading-relaxed mb-1">{t.s}</div>
               <div className="font-mono text-[10px] text-zinc-600">{t.src}</div>
             </div>
           ))}
         </div>
       </div>
+{/* ... (skipping unchanged parts for brevity in checking, but in replace call I must include context if contiguous, but here skipping to DoctorContent if it is far away is bad. 400ish is far from 450ish. I will use separate calls or include the middle part unchanged.) */}
+{/* Actually, it's lines 384-395 and 445-470. That's 50 lines gap. I will stick to one area per call or do a huge one. Let's do Tailwinds first. */}
 
       {/* ── BESSEMER INSIGHT CALLOUT ── */}
       <div className="rounded-2xl p-7 relative overflow-hidden" style={{ background: "rgba(245,158,11,.05)", border: "1px solid rgba(245,158,11,.18)" }}>
         <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(245,158,11,.08) 0%,transparent 70%)" }} />
         <div className="relative">
           <div className="font-mono text-[10px] uppercase tracking-widest mb-3" style={{ color: "rgba(245,158,11,.5)" }}>Bessemer VP · State of Health AI 2026 · Jan 2026</div>
-          <blockquote className="text-zinc-200 text-base leading-relaxed mb-3" style={{ fontFamily: "'DM Sans',sans-serif" }}>
+          <blockquote className="text-zinc-200 text-base leading-relaxed mb-3">
             "Healthcare AI companies are hitting $100M ARR, even $200M ARR, in under five years — versus 10+ years for traditional healthcare software. <strong className="text-white">This time is fundamentally different.</strong>"
           </blockquote>
           <div className="grid md:grid-cols-2 gap-3 mt-5">
@@ -408,7 +409,7 @@ function InvestorContent() {
               { s: "63%", l: "Series D+ valuations up 63% YoY as track records build" },
             ].map((b, i) => (
               <div key={i} className="p-3 rounded-xl" style={{ background: "rgba(0,0,0,.3)" }}>
-                <div className="font-black text-xl mb-1" style={{ fontFamily: "'Syne',sans-serif", color: G }}>{b.s}</div>
+                <div className="font-black text-xl mb-1" style={{ fontFamily: "var(--font-display)", color: G }}>{b.s}</div>
                 <div className="text-zinc-500 text-xs">{b.l}</div>
               </div>
             ))}
@@ -418,10 +419,10 @@ function InvestorContent() {
 
       {/* ── INVESTOR CTA ── */}
       <div className="rounded-2xl p-8 text-center" style={{ background: "linear-gradient(135deg,rgba(245,158,11,.07),rgba(10,15,25,.95))", border: "1px solid rgba(245,158,11,.2)" }}>
-        <h3 className="text-2xl font-black text-white mb-2 tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>Want the Full Deck?</h3>
+        <h3 className="text-2xl font-black text-white mb-2 tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Want the Full Deck?</h3>
         <p className="text-zinc-400 text-sm mb-6 max-w-sm mx-auto">Traction data, roadmap, team, and financials available under NDA for qualified investors.</p>
         <div className="flex flex-wrap gap-3 justify-center">
-          <a href="mailto:contact.doctorsai@elpisverse.com?subject=Investor Inquiry - Exhibition 2026" className="inline-block px-10 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "'Syne',sans-serif", background: G, boxShadow: `0 0 32px rgba(245,158,11,.28)` }}>Schedule a Call →</a>
+          <a href="mailto:contact.doctorsai@elpisverse.com?subject=Investor Inquiry - Exhibition 2026" className="inline-block px-10 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: G, boxShadow: `0 0 32px rgba(245,158,11,.28)` }}>Schedule a Call →</a>
           <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="inline-block px-10 py-3.5 rounded-xl text-sm text-zinc-300 hover:text-white transition-all" style={{ border: "1px solid rgba(255,255,255,.1)" }}>See the Live Product</a>
         </div>
       </div>
@@ -447,11 +448,11 @@ function DoctorContent() {
       <div>
         <Tag c={C}>For Clinicians</Tag>
         <H2 sub="57% of physicians say reducing administrative burden is AI's biggest opportunity — Vention Teams, 2025">Spend More Time<br /><span style={{ color: C }}>With Patients.</span></H2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {tools.map((t, i) => (
             <div key={i} className="p-5 rounded-xl transition-all hover:-translate-y-0.5" style={{ border: `1px solid rgba(34,211,238,.1)`, background: "rgba(34,211,238,.03)" }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg mb-4" style={{ background: "rgba(34,211,238,.08)", border: "1px solid rgba(34,211,238,.14)" }}>{t.e}</div>
-              <div className="font-bold text-white text-sm mb-2 tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>{t.t}</div>
+              <div className="font-bold text-white text-sm mb-2 tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{t.t}</div>
               <div className="text-zinc-500 text-xs leading-relaxed">{t.d}</div>
             </div>
           ))}
@@ -459,10 +460,10 @@ function DoctorContent() {
       </div>
       <div className="rounded-2xl p-6" style={{ border: "1px solid rgba(34,211,238,.1)", background: "rgba(34,211,238,.03)" }}>
         <div className="font-mono text-[10px] text-zinc-700 uppercase tracking-wider mb-4">📊 Clinical Evidence · 2025</div>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[{ v:"87.3%", l:"AI operative report accuracy vs 72.8% surgeon-written", s:"Nature Medicine/JACS,2025" }, { v:"0.3%", l:"AI false-negative rate vs 4.4% human technicians (14,606 patients)", s:"Nature Medicine,2025" }, { v:"68%", l:"Physicians now using AI for clinical documentation", s:"Vention Teams,2025" }].map((c,i) => (
             <div key={i} className="text-center p-4 rounded-xl" style={{ background: "rgba(0,0,0,.25)" }}>
-              <div className="text-2xl font-black tracking-tight mb-1" style={{ fontFamily:"'Syne',sans-serif", color:C }}>{c.v}</div>
+              <div className="text-2xl font-black tracking-tight mb-1" style={{ fontFamily:"var(--font-display)", color:C }}>{c.v}</div>
               <div className="text-zinc-400 text-xs leading-relaxed mb-1.5">{c.l}</div>
               <div className="font-mono text-[10px] text-zinc-700">📊 {c.s}</div>
             </div>
@@ -496,7 +497,7 @@ function StudentContent() {
           {tools.map((t,i) => (
             <div key={i} className="p-5 rounded-xl transition-all hover:-translate-y-0.5" style={{ border:`1px solid rgba(52,211,153,.1)`, background:"rgba(52,211,153,.03)" }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg mb-4" style={{ background:"rgba(52,211,153,.08)",border:"1px solid rgba(52,211,153,.14)" }}>{t.e}</div>
-              <div className="font-bold text-white text-sm mb-2 tracking-tight" style={{ fontFamily:"'Syne',sans-serif" }}>{t.t}</div>
+              <div className="font-bold text-white text-sm mb-2 tracking-tight" style={{ fontFamily:"var(--font-display)" }}>{t.t}</div>
               <div className="text-zinc-500 text-xs leading-relaxed">{t.d}</div>
             </div>
           ))}
@@ -504,11 +505,11 @@ function StudentContent() {
       </div>
       <BeatAI />
       <div className="rounded-2xl p-7" style={{ border:"1px solid rgba(52,211,153,.1)",background:"rgba(52,211,153,.03)" }}>
-        <div className="font-bold text-white mb-6 tracking-tight" style={{ fontFamily:"'Syne',sans-serif" }}>Your Journey with Doctors AI</div>
+        <div className="font-bold text-white mb-6 tracking-tight" style={{ fontFamily:"var(--font-display)" }}>Your Journey with Doctors AI</div>
         {[{ yr:"Preclinical", a:"Flashcards + AI chat master preclinical subjects 2–3× faster" },{ yr:"Clinical Years", a:"Practise clinical reasoning with AI scenario-based chat and journal summaries" },{ yr:"Final Year", a:"SOAP notes, clinical decision support, discharge summary practice on rotations" },{ yr:"Foundation", a:"Join global community — real case discussions with practising physicians" }].map((s,i,arr) => (
           <div key={i} className="flex gap-4">
             <div className="flex flex-col items-center">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center font-black text-xs flex-shrink-0" style={{ fontFamily:"'Syne',sans-serif", background:C, color:"#052e16" }}>{i+1}</div>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center font-black text-xs flex-shrink-0" style={{ fontFamily:"var(--font-display)", background:C, color:"#052e16" }}>{i+1}</div>
               {i<arr.length-1 && <div className="w-0.5 flex-1 my-1" style={{ background:`linear-gradient(${C}55,transparent)`, minHeight:"24px" }} />}
             </div>
             <div className="pb-5"><div className="font-mono text-[11px] mb-1" style={{ color:C }}>{s.yr}</div><div className="text-zinc-300 text-sm">{s.a}</div></div>
@@ -541,7 +542,7 @@ function CreatorContent() {
         </div>
       </div>
       <div className="flex flex-wrap gap-3">
-        <a href="https://forms.gle/WHnWJaaCtNbcRFgm7" target="_blank" rel="noreferrer" className="px-8 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily:"'Syne',sans-serif",background:C,boxShadow:`0 0 28px rgba(167,139,250,.28)` }}>Apply to Partner Program →</a>
+        <a href="https://forms.gle/WHnWJaaCtNbcRFgm7" target="_blank" rel="noreferrer" className="px-8 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily:"var(--font-display)",background:C,boxShadow:`0 0 28px rgba(167,139,250,.28)` }}>Apply to Partner Program →</a>
         <a href="mailto:contact.doctorsai@elpisverse.com" className="px-8 py-3.5 rounded-xl text-sm text-zinc-400 hover:text-white transition-all" style={{ border:"1px solid rgba(255,255,255,.1)" }}>✉️ Email the Team</a>
       </div>
     </div>
@@ -558,7 +559,7 @@ function VisitorContent() {
       <div>
         <Tag c={C}>Welcome</Tag>
         <H2 sub="Trusted by healthcare professionals and medical students worldwide.">Healthcare Intelligence,<br /><span style={{ color:C }}>In Your Pocket.</span></H2>
-        <div className="grid md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {[{ e:"🔬",t:"Understand Your Health",d:"AI symptom analysis for clarity before your doctor's appointment." },{ e:"💬",t:"Ask Medical Questions",d:"Evidence-based answers to health questions, in plain language." },{ e:"📖",t:"Stay Informed",d:"Curated medical content, podcasts, and research — simplified." }].map((c,i) => (
             <div key={i} className="p-6 rounded-xl transition-all hover:-translate-y-0.5" style={{ border:"1px solid rgba(251,113,133,.1)",background:"rgba(251,113,133,.03)" }}>
               <div className="text-3xl mb-4">{c.e}</div>
@@ -585,11 +586,19 @@ function ImpactStrip() {
         { t:66, s:"%",  l:"Physicians using health AI, 2024", src:"DemandSage, 2025" },
         { t:55, s:"%",  l:"Health VC captured by AI in 2025",  src:"Bessemer VP, 2026" },
       ].map((it,i) => (
-        <div key={i} className="p-5 rounded-xl text-center transition-all hover:-translate-y-0.5" style={{ border:"1px solid rgba(255,255,255,.06)",background:"rgba(255,255,255,.018)" }}>
-          <div className="text-3xl font-black text-white tracking-tight mb-1" style={{ fontFamily:"'Syne',sans-serif" }}><Counter target={it.t} suffix={it.s} /></div>
+        <motion.div 
+          key={i} 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.1, duration: 0.5 }}
+          className="p-5 rounded-xl text-center transition-all hover:-translate-y-0.5" 
+          style={{ border:"1px solid rgba(255,255,255,.06)",background:"rgba(255,255,255,.018)" }}
+        >
+          <div className="text-3xl font-black text-white tracking-tight mb-1" style={{ fontFamily:"var(--font-display)" }}><Counter target={it.t} suffix={it.s} /></div>
           <div className="text-zinc-500 text-xs leading-relaxed">{it.l}</div>
           {it.src && <div className="font-mono text-[10px] text-zinc-700 mt-1">{it.src}</div>}
-        </div>
+        </motion.div>
       ))}
     </div>
   );
@@ -618,11 +627,11 @@ function Onboarding({ onSelect }: { onSelect: (t: VisitorType) => void }) {
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="text-cyan-400 font-mono text-[11px] tracking-widest uppercase">Exhibition 2026</span>
             </div>
-            <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(44px,8vw,72px)", fontWeight:800, lineHeight:1, letterSpacing:"-.04em", color:"#fff" }} className="mb-5">
+            <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(44px,8vw,72px)", fontWeight:800, lineHeight:1, letterSpacing:"-.04em", color:"#fff" }} className="mb-5">
               Welcome to<br /><span style={{ color:"#22d3ee" }}>Doctors AI</span>
             </h1>
-            <p className="text-zinc-400 font-light text-lg leading-relaxed max-w-sm mx-auto mb-10" style={{ fontFamily:"'DM Sans',sans-serif" }}>Medical-grade AI intelligence for every healthcare professional. Let us personalise your experience.</p>
-            <button onClick={() => setStep(1)} className="px-10 py-4 rounded-full font-bold text-zinc-950 text-base tracking-tight transition-all hover:-translate-y-0.5" style={{ fontFamily:"'Syne',sans-serif", background:"#22d3ee", boxShadow:"0 0 36px rgba(34,211,238,.32)" }}>
+            <p className="text-zinc-400 font-light text-lg leading-relaxed max-w-sm mx-auto mb-10">Medical-grade AI intelligence for every healthcare professional. Let us personalise your experience.</p>
+            <button onClick={() => setStep(1)} className="px-10 py-4 rounded-full font-bold text-zinc-950 text-base tracking-tight transition-all hover:-translate-y-0.5" style={{ fontFamily:"var(--font-display)", background:"#22d3ee", boxShadow:"0 0 36px rgba(34,211,238,.32)" }}>
               Personalise My Experience →
             </button>
             <p className="mt-5 font-mono text-[11px] text-zinc-700 tracking-wider">10 seconds · no sign-up</p>
@@ -630,8 +639,8 @@ function Onboarding({ onSelect }: { onSelect: (t: VisitorType) => void }) {
         ) : (
           <div style={{ animation:"fadeUp .45s ease both" }}>
             <button onClick={() => setStep(0)} className="mb-7 text-zinc-600 hover:text-zinc-300 text-sm font-mono transition-colors">← Back</button>
-            <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(26px,5vw,36px)", fontWeight:800, letterSpacing:"-.03em", color:"#fff" }} className="mb-2">Who are you here as?</h2>
-            <p className="text-zinc-600 text-sm mb-7" style={{ fontFamily:"'DM Sans',sans-serif" }}>We'll show you what matters most to you.</p>
+            <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(26px,5vw,36px)", fontWeight:800, letterSpacing:"-.03em", color:"#fff" }} className="mb-2">Who are you here as?</h2>
+            <p className="text-zinc-600 text-sm mb-7">We'll show you what matters most to you.</p>
             <div className="flex flex-col gap-2.5">
               {choices.map(ch => {
                 const cfg = VCFG[ch.type];
@@ -639,7 +648,7 @@ function Onboarding({ onSelect }: { onSelect: (t: VisitorType) => void }) {
                   <button key={ch.type} onClick={() => onSelect(ch.type)} className="group flex items-center gap-4 p-5 rounded-2xl text-left transition-all hover:-translate-y-0.5" style={{ border:`1px solid ${cfg.border}`, background:cfg.dim }}>
                     <span className="text-2xl">{cfg.emoji}</span>
                     <div className="flex-1">
-                      <div className="font-bold text-base text-white tracking-tight" style={{ fontFamily:"'Syne',sans-serif" }}>{ch.title}</div>
+                      <div className="font-bold text-base text-white tracking-tight" style={{ fontFamily:"var(--font-display)" }}>{ch.title}</div>
                       <div className="text-zinc-500 text-xs mt-0.5">{ch.sub}</div>
                     </div>
                     <span className="text-zinc-600 group-hover:text-zinc-300 transition-colors">→</span>
@@ -659,11 +668,11 @@ function Onboarding({ onSelect }: { onSelect: (t: VisitorType) => void }) {
 // ─────────────────────────────────────────────────────────────────
 function Switcher({ cur, onSwitch }: { cur: VisitorType; onSwitch: (t: VisitorType) => void }) {
   return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1 px-3 py-2 rounded-full" style={{ background:"rgba(5,8,15,.92)", border:"1px solid rgba(255,255,255,.07)", backdropFilter:"blur(24px)", boxShadow:"0 8px 40px rgba(0,0,0,.6)" }}>
-      <span className="font-mono text-[10px] text-zinc-700 uppercase tracking-wider px-1">View as</span>
+    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1 px-3 py-2 rounded-full max-w-[95vw] overflow-x-auto no-scrollbar" style={{ background:"rgba(5,8,15,.92)", border:"1px solid rgba(255,255,255,.07)", backdropFilter:"blur(24px)", boxShadow:"0 8px 40px rgba(0,0,0,.6)" }}>
+      <span className="font-mono text-[10px] text-zinc-700 uppercase tracking-wider px-1 flex-shrink-0">View as</span>
       {(Object.keys(VCFG) as VisitorType[]).map(t => {
         const c = VCFG[t];
-        return <button key={t} onClick={() => onSwitch(t)} className="px-3 py-1.5 rounded-full font-mono text-[11px] transition-all duration-150" style={cur===t ? { background:c.dim, border:`1px solid ${c.border}`, color:c.accent } : { border:"1px solid transparent", color:"#4b5563" }}>{c.emoji} {c.label}</button>;
+        return <button key={t} onClick={() => onSwitch(t)} className="px-3 py-1.5 rounded-full font-mono text-[11px] transition-all duration-150 whitespace-nowrap flex-shrink-0" style={cur===t ? { background:c.dim, border:`1px solid ${c.border}`, color:c.accent } : { border:"1px solid transparent", color:"#4b5563" }}>{c.emoji} {c.label}</button>;
       })}
     </div>
   );
@@ -713,14 +722,16 @@ export default function VisionPage() {
 
   return (
     <>
+      <Navbar />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         *,*::before,*::after{box-sizing:border-box}
         html{scroll-behavior:smooth;background:#050810 !important}
-        body{font-family:'DM Sans',sans-serif !important;background:#050810 !important;color:#e5e7eb !important;overflow-x:hidden}
+        body{font-family:'Inter', sans-serif !important;background:#050810 !important;color:#e5e7eb !important;overflow-x:hidden}
         @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+        .no-scrollbar::-webkit-scrollbar {display: none;}
+        .no-scrollbar {-ms-overflow-style: none; scrollbar-width: none;}
       `}</style>
 
       {!ready && <Onboarding onSelect={onboard} />}
@@ -735,30 +746,21 @@ export default function VisionPage() {
       {ready && visitor && (
         <div className="relative z-10 min-h-screen" style={{ background:"#050810" }}>
 
-          {/* NAV */}
-          <nav className="sticky top-0 z-30 flex items-center justify-between px-6 md:px-14 py-4" style={{ borderBottom:"1px solid rgba(255,255,255,.05)", background:"rgba(5,8,15,.88)", backdropFilter:"blur(20px)" }}>
-            <div className="flex items-center gap-3">
-              <span className="font-black text-xl text-white tracking-tight" style={{ fontFamily:"'Syne',sans-serif" }}>Doctors<span style={{ color:"#22d3ee" }}>AI</span></span>
-              <span className="hidden md:block font-mono text-[10px] text-zinc-700 px-2 py-0.5 rounded-full" style={{ border:"1px solid rgba(255,255,255,.06)" }}>elpisverse.com</span>
-            </div>
-            <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="px-5 py-2 rounded-full font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily:"'Syne',sans-serif", background:"#22d3ee", boxShadow:"0 0 20px rgba(34,211,238,.22)" }}>Download Free</a>
-          </nav>
-
           {/* HERO */}
           <section ref={topRef} className="px-6 md:px-14 pt-20 pb-12 max-w-5xl mx-auto">
             <div style={{ animation:"fadeUp .6s ease both" }}>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 font-mono text-[11px] tracking-widest uppercase" style={{ background:cfg.dim, border:`1px solid ${cfg.border}`, color:cfg.accent }}>
                 {cfg.emoji} {cfg.label}
               </div>
-              <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(48px,7.5vw,88px)", fontWeight:800, lineHeight:0.97, letterSpacing:"-.05em", color:"#fff" }} className="mb-5">
+              <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(48px,7.5vw,88px)", fontWeight:800, lineHeight:0.97, letterSpacing:"-.05em", color:"#fff" }} className="mb-5">
                 {HERO_HEAD[visitor]}
               </h1>
-              <p className="text-zinc-400 font-light text-lg leading-relaxed max-w-xl mb-8" style={{ fontFamily:"'DM Sans',sans-serif" }}>{HERO_SUB[visitor]}</p>
+              <p className="text-zinc-400 font-light text-lg leading-relaxed max-w-xl mb-8">{HERO_SUB[visitor]}</p>
               <div className="flex flex-wrap gap-3">
                 <a href={visitor==="investor" ? "mailto:contact.doctorsai@elpisverse.com?subject=Investor Inquiry - Exhibition 2026" : "https://play.google.com/store/apps/details?id=com.kingrittik.doctors"}
                    target={visitor==="investor" ? undefined : "_blank"} rel="noreferrer"
                    className="px-9 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5"
-                   style={{ fontFamily:"'Syne',sans-serif", background:cfg.accent, boxShadow:`0 0 32px ${cfg.accent}44` }}>
+                   style={{ fontFamily:"var(--font-display)", background:cfg.accent, boxShadow:`0 0 32px ${cfg.accent}44` }}>
                   {visitor==="investor" ? "Request the Deck →" : "Download Free →"}
                 </a>
                 {visitor==="creator" && <a href="https://forms.gle/WHnWJaaCtNbcRFgm7" target="_blank" rel="noreferrer" className="px-9 py-3.5 rounded-xl text-sm text-zinc-300 hover:text-white transition-all" style={{ border:"1px solid rgba(255,255,255,.1)" }}>Apply →</a>}
@@ -793,30 +795,19 @@ export default function VisionPage() {
           {/* AMBASSADOR */}
           <section className="px-6 md:px-14 py-16 max-w-5xl mx-auto text-center">
             <Tag c="#fb7185">Ambassador Program</Tag>
-            <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(30px,4vw,48px)", fontWeight:800, letterSpacing:"-.04em", color:"#fff", lineHeight:1.05 }} className="mb-3">
+            <h2 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(30px,4vw,48px)", fontWeight:800, letterSpacing:"-.04em", color:"#fff", lineHeight:1.05 }} className="mb-3">
               Champion AI Healthcare.<br /><span style={{ color:"#fb7185" }}>Get Recognised For It.</span>
             </h2>
             <p className="text-zinc-500 text-sm max-w-md mx-auto leading-relaxed mb-7">Open to doctors, students, and healthcare influencers. Exclusive recognition, early access, and direct product impact.</p>
             <div className="flex flex-wrap gap-2 justify-center mb-7">
               {["🌟 Exclusive Recognition","🚀 Early Access","🌐 Global Network","💡 Shape Roadmap","❤️ Impact Care"].map((p,i) => <span key={i} className="px-3 py-1.5 rounded-full text-xs font-mono" style={{ background:"rgba(251,113,133,.07)",border:"1px solid rgba(251,113,133,.18)",color:"#fb7185" }}>{p}</span>)}
             </div>
-            <a href="https://forms.gle/WHnWJaaCtNbcRFgm7" target="_blank" rel="noreferrer" className="inline-block px-10 py-3.5 rounded-xl font-bold text-sm text-white transition-all hover:-translate-y-0.5" style={{ fontFamily:"'Syne',sans-serif", background:"rgba(251,113,133,.14)", border:"1px solid rgba(251,113,133,.28)", boxShadow:"0 0 32px rgba(251,113,133,.1)" }}>
+            <a href="https://forms.gle/WHnWJaaCtNbcRFgm7" target="_blank" rel="noreferrer" className="inline-block px-10 py-3.5 rounded-xl font-bold text-sm text-white transition-all hover:-translate-y-0.5" style={{ fontFamily:"var(--font-display)", background:"rgba(251,113,133,.14)", border:"1px solid rgba(251,113,133,.28)", boxShadow:"0 0 32px rgba(251,113,133,.1)" }}>
               Apply to Ambassador Program →
             </a>
           </section>
 
-          {/* FOOTER */}
-          <footer style={{ borderTop:"1px solid rgba(255,255,255,.05)" }} className="px-6 md:px-14 py-8 max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <div className="font-black text-lg text-white tracking-tight mb-1" style={{ fontFamily:"'Syne',sans-serif" }}>Doctors<span style={{ color:"#22d3ee" }}>AI</span></div>
-              <div className="font-mono text-xs text-zinc-700">contact.doctorsai@elpisverse.com</div>
-            </div>
-            <div className="font-mono text-[10px] text-zinc-700 leading-relaxed max-w-xl md:text-right">
-              Medical Disclaimer: Assisting tool only. Not a substitute for professional medical judgment.<br />
-              Market data: Precedence Research (Nov 2025) · Bessemer VP (Jan 2026) · SVB (Jan 2026) · Rock Health (Jul 2025) · Crunchbase (Nov 2025) · DemandSage (Dec 2025) · Vention Teams (2025) · Menlo Ventures (Nov 2025).<br />
-              © 2026 Doctors AI · ELPISVERSE
-            </div>
-          </footer>
+          <Footer />
         </div>
       )}
 
