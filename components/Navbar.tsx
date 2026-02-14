@@ -11,6 +11,7 @@ const navItems = [
   // { label: 'About', href: '#about' },
   { label: "Features", href: "#features" },
   { label: "Ambassador", href: "#ambassador" },
+  { label: "Vision", href: "/vision" },
   { label: "Contact", href: "#contact" },
   { label: "Card", href: "/visiting-card" },
 ];
