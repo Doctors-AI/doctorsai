@@ -98,22 +98,23 @@ END:VCARD`;
     return vcard;
   };
 
-  // Download vCard
-  const downloadVCard = () => {
+  // Save to Contacts (opens native contacts app instead of downloading)
+  const saveToContacts = () => {
     const vcard = generateVCard();
-    const element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(vcard),
-    );
-    element.setAttribute(
+    const dataUrl =
+      "data:text/vcard;charset=utf-8," + encodeURIComponent(vcard);
+
+    // Try to open with the system's contact handler
+    // On mobile, this will open the native contacts app
+    // On desktop, it might open with the configured vCard application
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.setAttribute(
       "download",
       `${contactInfo.name.replace(/\s/g, "_")}.vcf`,
     );
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    link.click();
+
     setShowContactToast(true);
     setTimeout(() => setShowContactToast(false), 3000);
   };
@@ -454,21 +455,11 @@ END:VCARD`;
           <motion.button
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            onClick={downloadVCard}
+            onClick={saveToContacts}
             className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-[0_0_30px_rgba(20,184,166,0.4)] transition-all duration-300"
           >
             <Download size={20} />
             Save Contact
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => window.print()}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-white/10 border border-white/30 text-white rounded-xl font-semibold shadow-lg hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all duration-300"
-          >
-            <Mail size={20} />
-            Print Card
           </motion.button>
         </motion.div>
 
