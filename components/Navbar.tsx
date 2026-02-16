@@ -13,7 +13,7 @@ const navItems = [
   { label: "Ambassador", href: "#ambassador" },
   { label: "Vision", href: "/vision" },
   { label: "Contact", href: "#contact" },
-  { label: "Card", href: "/visiting-card" },
+  // { label: "Card", href: "/visiting-card" },
 ];
 
 export default function Navbar() {
