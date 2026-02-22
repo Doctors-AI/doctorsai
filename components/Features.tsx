@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useRef, MouseEvent } from 'react';
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Brain, FileText, Globe, FileEdit, Podcast, BookOpen, Sparkles, MessageSquare, X, Maximize2, GraduationCap, Play } from 'lucide-react';
+import { Brain, FileText, Globe, FileEdit, Podcast, BookOpen, Sparkles, MessageSquare, X, Maximize2, GraduationCap, Play, Users } from 'lucide-react';
 
 const features = [
   {
@@ -46,11 +46,17 @@ const features = [
     description: "Streamline your workflow with automated clinical note-taking that captures and structures key medical details instantly.",
     image: "https://github.com/RittikSoni/assets/blob/main/doctorsai/doctors-ai-clinc-notes.jpg?raw=true"
   },
-   {
+  {
     icon: GraduationCap,
     title: "AI-Powered Anki-style Flashcards",
     description: "Auto-generate high-quality Q/A, MCQ, and cloze cards from AI or notes. Supports spaced-repetition scheduling and offline study.",
     image: "https://raw.githubusercontent.com/RittikSoni/assets/refs/heads/main/doctorsai/ai-powered-anki-style-flashcards.png"
+  },
+  {
+    icon: Users,
+    title: "Queue & Token Management",
+    description: "Streamline your clinic with advanced queue and token management. Get discovered by millions of patients looking for top doctors, hospitals and clinics on the Patients AI app and seamlessly grow your practice.",
+    image: "https://github.com/Doctors-AI/assets/blob/main/images/queue%20and%20token%20management%20and%20discoveribility%20-%20best%20doctors%20ai%20x%20patients%20ai%20app.png?raw=true"
   },
   {
     icon: Sparkles,
@@ -219,6 +225,41 @@ const Features = () => {
               />
             ))}
           </div>
+
+          {/* CTA Section for App Downloads & SEO Focus */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-24 text-center bg-slate-900/50 border border-teal-500/20 rounded-3xl p-12 backdrop-blur-sm relative overflow-hidden group"
+          >
+             <div className="absolute inset-0 bg-gradient-to-r from-teal-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+             <div className="relative z-10 flex flex-col items-center">
+               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">Empower Your Medical Practice with Doctors AI</h3>
+               <p className="text-slate-400 mb-10 max-w-2xl text-lg md:text-xl leading-relaxed">
+                 Join thousands of forward-thinking healthcare professionals. Use our smart clinical tools, AI symptom assessment, and powerful queue management system to deliver exceptional healthcare today. Get discovered easily by patients across the digital healthcare landscape.
+               </p>
+               <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+                 <a 
+                   href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-400 hover:to-blue-400 text-white font-bold rounded-2xl transition-all shadow-lg shadow-teal-500/25 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg w-full sm:w-auto group"
+                 >
+                   <span>Download the App</span>
+                   <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                 </a>
+                 <a 
+                   href="https://patientsai.elpisverse.com"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-2xl transition-all border border-slate-700 hover:border-slate-500 transform hover:-translate-y-1 flex items-center justify-center text-lg w-full sm:w-auto"
+                 >
+                   Explore Discoverability
+                 </a>
+               </div>
+             </div>
+          </motion.div>
 
         </div>
       </section>
