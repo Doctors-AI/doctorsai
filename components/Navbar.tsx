@@ -158,10 +158,8 @@ export default function Navbar() {
               ))}
             </div>
 
-            <motion.a
-              href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.button
+              onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-download')); }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
@@ -171,8 +169,8 @@ export default function Navbar() {
                   : "bg-surgical-gradient"
               }`}
             >
-              Get Started
-            </motion.a>
+              Download App
+            </motion.button>
           </div>
 
           {/* Mobile Menu Button - Enhanced Glass */}
@@ -224,17 +222,15 @@ export default function Navbar() {
                   </div>
                 </motion.a>
               ))}
-              <motion.a
-                href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); window.dispatchEvent(new Event('open-download')); }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
                 className="block w-full mt-6 px-6 py-4 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 font-semibold text-center text-white shadow-lg shadow-teal-500/20"
               >
-                Get Started
-              </motion.a>
+                Download App
+              </motion.button>
             </div>
           </motion.div>
         )}

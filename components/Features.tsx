@@ -240,15 +240,13 @@ const Features = () => {
                  Join thousands of forward-thinking healthcare professionals. Use our smart clinical tools, AI symptom assessment, and powerful queue management system to deliver exceptional healthcare today. Get discovered easily by patients across the digital healthcare landscape.
                </p>
                <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
-                 <a 
-                   href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
-                   target="_blank"
-                   rel="noopener noreferrer"
+                 <button 
+                   onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-download')); }}
                    className="px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-400 hover:to-blue-400 text-white font-bold rounded-2xl transition-all shadow-lg shadow-teal-500/25 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg w-full sm:w-auto group"
                  >
                    <span>Download the App</span>
                    <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                 </a>
+                 </button>
                  <a 
                    href="https://patientsai.elpisverse.com"
                    target="_blank"

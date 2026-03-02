@@ -108,25 +108,23 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center lg:justify-start"
           >
-            <motion.a
-                href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors"
-                target="_blank" 
-                rel="noopener noreferrer"
+            <motion.button
+                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-download')); }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 rounded-2xl flex items-center justify-center gap-3 shadow-[0_10px_40px_-10px_rgba(20,184,166,0.5)] overflow-hidden"
+                className="group relative px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 rounded-2xl flex items-center justify-center gap-3 shadow-[0_10px_40px_-10px_rgba(20,184,166,0.5)] overflow-hidden w-full sm:w-auto"
             >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 <Download className="w-5 h-5 text-white relative z-10" />
-                <span className="text-white font-bold text-lg relative z-10">Download Now</span>
-            </motion.a>
+                <span className="text-white font-bold text-lg relative z-10">Download App</span>
+            </motion.button>
             
             <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm flex items-center justify-center gap-3 text-white font-semibold hover:bg-white/10 transition-colors"
+                className="px-6 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm flex items-center justify-center gap-3 text-white font-semibold hover:bg-white/10 transition-colors w-full sm:w-auto"
                 onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
             >
                 <Activity className="w-5 h-5 text-teal-400" />

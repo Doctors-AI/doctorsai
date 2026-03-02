@@ -229,7 +229,7 @@ function BeatAI() {
             <p className="text-zinc-400 text-xs leading-relaxed">Download today — get <strong className="text-white">3 months Premium free</strong> + <strong className="text-white">500 AI credits</strong>. Exhibition attendees only.</p>
           </div>
           <div className="flex gap-3">
-            <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="flex-1 py-3 rounded-xl text-sm font-bold text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "#22d3ee", boxShadow: "0 0 24px rgba(34,211,238,.22)" }}>Download Free →</a>
+            <button onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-download')); }} className="flex-1 py-3 rounded-xl text-sm font-bold text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "#22d3ee", boxShadow: "0 0 24px rgba(34,211,238,.22)" }}>Download Free →</button>
             <button onClick={() => { setGs("idle"); setScore(0); setQi(0); setSel(null); }} className="px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-white transition-all" style={{ border: "1px solid rgba(255,255,255,.08)" }}>Retry</button>
           </div>
         </div>
@@ -254,8 +254,7 @@ function Offer() {
         </h3>
         <p className="text-zinc-400 text-sm leading-relaxed mb-7 max-w-lg">Exclusively for exhibition attendees. Claim instantly — no credit card. Offer expires at the end of the event.</p>
         <div className="flex flex-wrap gap-3 items-center">
-          <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="px-8 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "#22d3ee", boxShadow: "0 0 28px rgba(34,211,238,.28)" }}>▶ Download on Google Play</a>
-          <span className="text-zinc-700 text-xs font-mono">🍎 App Store — Coming Soon</span>
+          <button onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-download')); }} className="px-8 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: "#22d3ee", boxShadow: "0 0 28px rgba(34,211,238,.28)" }}>Download the App</button>
         </div>
       </div>
     </div>
@@ -424,7 +423,7 @@ function InvestorContent() {
         <p className="text-zinc-400 text-sm mb-6 max-w-sm mx-auto">Traction data, roadmap, team, and financials available under NDA for qualified investors.</p>
         <div className="flex flex-wrap gap-3 justify-center">
           <a href="mailto:contact.doctorsai@elpisverse.com?subject=Investor Inquiry - Exhibition 2026" className="inline-block px-10 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5" style={{ fontFamily: "var(--font-display)", background: G, boxShadow: `0 0 32px rgba(245,158,11,.28)` }}>Schedule a Call →</a>
-          <a href="https://play.google.com/store/apps/details?id=com.kingrittik.doctors" target="_blank" rel="noreferrer" className="inline-block px-10 py-3.5 rounded-xl text-sm text-zinc-300 hover:text-white transition-all" style={{ border: "1px solid rgba(255,255,255,.1)" }}>See the Live Product</a>
+          <button onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-download')); }} className="inline-block px-10 py-3.5 rounded-xl text-sm text-zinc-300 hover:text-white transition-all" style={{ border: "1px solid rgba(255,255,255,.1)" }}>See the Live Product</button>
         </div>
       </div>
     </div>
@@ -766,12 +765,19 @@ export default function VisionPage() {
               </h1>
               <p className="text-zinc-400 font-light text-lg leading-relaxed max-w-xl mb-8">{HERO_SUB[visitor]}</p>
               <div className="flex flex-wrap gap-3">
-                <a href={visitor==="investor" ? "mailto:contact.doctorsai@elpisverse.com?subject=Investor Inquiry - Exhibition 2026" : "https://play.google.com/store/apps/details?id=com.kingrittik.doctors"}
-                   target={visitor==="investor" ? undefined : "_blank"} rel="noreferrer"
-                   className="px-9 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5"
-                   style={{ fontFamily:"var(--font-display)", background:cfg.accent, boxShadow:`0 0 32px ${cfg.accent}44` }}>
-                  {visitor==="investor" ? "Request the Deck →" : "Download Free →"}
-                </a>
+                {visitor === "investor" ? (
+                  <a href="mailto:contact.doctorsai@elpisverse.com?subject=Investor Inquiry - Exhibition 2026"
+                     className="px-9 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5"
+                     style={{ fontFamily:"var(--font-display)", background:cfg.accent, boxShadow:`0 0 32px ${cfg.accent}44` }}>
+                    Request the Deck →
+                  </a>
+                ) : (
+                  <button onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-download')); }}
+                     className="px-9 py-3.5 rounded-xl font-bold text-sm text-zinc-950 transition-all hover:-translate-y-0.5"
+                     style={{ fontFamily:"var(--font-display)", background:cfg.accent, boxShadow:`0 0 32px ${cfg.accent}44` }}>
+                    Download Free →
+                  </button>
+                )}
                 {visitor==="creator" && <a href="https://forms.gle/WHnWJaaCtNbcRFgm7" target="_blank" rel="noreferrer" className="px-9 py-3.5 rounded-xl text-sm text-zinc-300 hover:text-white transition-all" style={{ border:"1px solid rgba(255,255,255,.1)" }}>Apply →</a>}
               </div>
             </div>

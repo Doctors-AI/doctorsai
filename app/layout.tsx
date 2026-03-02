@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Analytics } from "@vercel/analytics/next"
 import ClarityComponent from "@/components/Clarity"
+import DownloadModal from "@/components/DownloadModal"
 
 
 
@@ -142,6 +143,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         {children}
+        <DownloadModal />
         <Analytics />
         <ClarityComponent />
       </body>

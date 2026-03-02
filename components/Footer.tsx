@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 
 const Footer = () => {
-  const [showIOSModal, setShowIOSModal] = useState(false);
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
@@ -103,8 +102,10 @@ const Footer = () => {
                    </motion.a>
 
                    {/* App Store */}
-                   <motion.button
-                     onClick={() => setShowIOSModal(true)}
+                   <motion.a
+                     href="https://apps.apple.com/in/app/doctors-ai/id6758019612"
+                     target="_blank"
+                     rel="noopener noreferrer"
                      whileHover={{ scale: 1.05 }}
                      whileTap={{ scale: 0.95 }}
                      className="block opacity-90 hover:opacity-100 transition-opacity"
@@ -114,7 +115,7 @@ const Footer = () => {
                        alt="Download on the App Store"
                        className="h-[46px] w-auto"
                      />
-                   </motion.button>
+                   </motion.a>
                  </div>
              </div>
 
@@ -206,63 +207,6 @@ const Footer = () => {
         </div>
       </footer>
 
-      {/* iOS Modal */}
-      <AnimatePresence>
-        {showIOSModal && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-             <motion.div
-               initial={{ opacity: 0 }}
-               animate={{ opacity: 1 }}
-               exit={{ opacity: 0 }}
-               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-               onClick={() => setShowIOSModal(false)}
-             />
-             
-             <motion.div
-               initial={{ scale: 0.9, opacity: 0, y: 20 }}
-               animate={{ scale: 1, opacity: 1, y: 0 }}
-               exit={{ scale: 0.9, opacity: 0, y: 10 }}
-               className="relative w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl p-8 overflow-hidden shadow-2xl"
-             >
-                {/* Modal Glows */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-                <button
-                  onClick={() => setShowIOSModal(false)}
-                  className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                <div className="text-center relative z-10">
-                   <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center border border-white/5 shadow-inner">
-                      <Smartphone className="w-8 h-8 text-slate-300" />
-                      <div className="absolute top-[-4px] right-[-4px]">
-                        <span className="relative flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
-                        </span>
-                      </div>
-                   </div>
-
-                   <h3 className="text-2xl font-bold text-white mb-2">Coming to iOS</h3>
-                   <p className="text-slate-400 mb-8">
-                     We're adding the final surgical touches. <br/> 
-                     Get notified when we launch on the App Store.
-                   </p>
-
-                   <button
-                     onClick={() => setShowIOSModal(false)}
-                     className="w-full py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 font-semibold text-white shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 transition-shadow"
-                   >
-                     Notify me on Launch
-                   </button>
-                </div>
-             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </>
   );
 };
