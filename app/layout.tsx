@@ -59,8 +59,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@Doctors__AI',
-    creator: '@Doctors__AI',
+    site: '@thedoctorsai',
+    creator: '@thedoctorsai',
     title: 'Doctors AI - Advanced AI Medical Assistant for Healthcare Professionals',
     description: 'Transform your medical practice with AI-powered diagnosis, clinical documentation, radiology analysis, and evidence-based research. Join thousands of healthcare professionals worldwide.',
     images: ['https://raw.githubusercontent.com/Doctors-AI/assets/refs/heads/main/images/doctors_ai.png'],
@@ -131,7 +131,7 @@ export default function RootLayout({
                 "Custom Medical Templates"
               ],
               "sameAs": [
-                "https://x.com/Doctors__AI",
+                "https://x.com/thedoctorsai",
                 "https://www.instagram.com/doctorsaiofficial/",
                 "https://www.youtube.com/@DoctorsAIofficial",
                 "https://www.linkedin.com/company/doctors-ai/",

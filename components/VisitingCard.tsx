@@ -60,7 +60,7 @@ export default function VisitingCard() {
     {
       icon: Twitter,
       label: "Twitter",
-      url: "https://x.com/Doctors__AI",
+      url: "https://x.com/thedoctorsai",
       color: "hover:text-sky-400",
       bg: "hover:bg-sky-400/10 hover:border-sky-400/20",
     },

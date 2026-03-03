@@ -2,9 +2,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Heart, Twitter, Instagram, Youtube, Linkedin, MessageCircle, 
+  Heart, MessageCircle, 
   Mail, MapPin, X, Sparkles, Smartphone, ArrowUp 
 } from 'lucide-react';
+import { BsTwitterX, BsInstagram, BsYoutube, BsLinkedin, BsDiscord } from "react-icons/bs";
+
+
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -15,35 +18,35 @@ const Footer = () => {
 
   const socialLinks = [
     { 
-      icon: Twitter, 
-      url: 'https://x.com/Doctors__AI', 
+      icon: BsTwitterX, 
+      url: 'https://x.com/thedoctorsai', 
       label: 'X (Twitter)',
       color: 'hover:text-sky-400',
       bg: 'hover:bg-sky-400/10 hover:border-sky-400/20'
     },
     { 
-      icon: Instagram, 
+      icon: BsInstagram, 
       url: 'https://www.instagram.com/doctorsaiofficial/', 
       label: 'Instagram',
       color: 'hover:text-pink-500',
       bg: 'hover:bg-pink-500/10 hover:border-pink-500/20'
     },
     { 
-      icon: Youtube, 
+      icon: BsYoutube, 
       url: 'https://www.youtube.com/@DoctorsAIofficial', 
       label: 'YouTube',
       color: 'hover:text-red-500',
       bg: 'hover:bg-red-500/10 hover:border-red-500/20'
     },
     { 
-      icon: Linkedin, 
+      icon: BsLinkedin, 
       url: 'https://www.linkedin.com/company/doctors-ai/', 
       label: 'LinkedIn',
       color: 'hover:text-blue-500',
       bg: 'hover:bg-blue-500/10 hover:border-blue-500/20'
     },
     { 
-      icon: MessageCircle, 
+      icon: BsDiscord, 
       url: 'https://discord.gg/BRv9ZfjaD2', 
       label: 'Discord',
       color: 'hover:text-indigo-400',

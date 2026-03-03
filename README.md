@@ -158,7 +158,7 @@ Copyright © 2024 Doctors AI. All rights reserved.
 ## 🔗 Links
 
 - [Google Play Store](https://play.google.com/store/apps/details?id=com.kingrittik.doctors)
-- [Twitter/X](https://x.com/Doctors__AI)
+- [Twitter/X](https://x.com/thedoctorsai)
 - [Instagram](https://www.instagram.com/doctorsaiofficial/)
 - [YouTube](https://www.youtube.com/@DoctorsAIofficial)
 - [LinkedIn](https://www.linkedin.com/company/doctors-ai/)
